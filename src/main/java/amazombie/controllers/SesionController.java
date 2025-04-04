@@ -51,7 +51,7 @@ public class SesionController {
         configurarImagen();
         configurarTabs();
         
-        // MusicManager.get().play("Intro");
+        // MusicManager.get().play("Intro"); music
         
         // configuracion inicial
         if (contrasenaVisible) {

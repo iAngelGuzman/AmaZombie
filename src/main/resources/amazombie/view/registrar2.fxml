@@ -17,23 +17,16 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gridPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="amazombie.controllers.RegistrarController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-      <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints vgrow="ALWAYS" />
-   </rowConstraints>
+<FlowPane alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="774.0" style="-fx-background-image: url(&quot;/almanaque/images/bg.png&quot;); -fx-background-size: cover; -fx-background-position: center;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="almanaque.controllers.RegistrarController">
    <children>
-      <VBox alignment="CENTER" prefHeight="315.0" prefWidth="440.0" style="-fx-background-color: #fff; -fx-background-radius: 10;" GridPane.columnIndex="1">
+      <VBox alignment="CENTER" prefHeight="315.0" prefWidth="440.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
-            <Label text="AmaZombie" textFill="#02e319">
+            <Label text="Amazombi" textFill="#02e319">
                <font>
-                  <Font name="GROBOLD" size="48.0" />
+                  <Font name="GROBOLD" size="36.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="6.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
                <effect>
                   <DropShadow height="10.0" radius="4.5" spread="1.0" width="10.0">
@@ -48,7 +41,7 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
                <font>
-                  <Font name="GROBOLD" size="18.0" />
+                  <Font name="GROBOLD" size="16.0" />
                </font>
                <effect>
                   <DropShadow height="10.0" radius="4.5" spread="1.0" width="10.0">
@@ -60,7 +53,7 @@
             </Label>
             <Label text="Registrar Usuario">
                <font>
-                  <Font name="GROBOLD" size="24.0" />
+                  <Font name="GROBOLD" size="22.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="25.0" />
@@ -69,7 +62,7 @@
             <GridPane hgap="8.0" vgap="10.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" prefWidth="40.0" />
-                  <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                  <ColumnConstraints hgrow="ALWAYS" />
                   <ColumnConstraints hgrow="SOMETIMES" prefWidth="40.0" />
                </columnConstraints>
                <rowConstraints>
@@ -83,7 +76,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font name="Poetsen One" size="14.0" />
+                        <Font name="Poetsen One" size="13.0" />
                      </font>
                   </TextField>
                   <TextField fx:id="contrasenaText" focusTraversable="false" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -91,7 +84,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font name="Poetsen One" size="14.0" />
+                        <Font name="Poetsen One" size="13.0" />
                      </font>
                   </TextField>
                   <PasswordField fx:id="contrasenaField" focusTraversable="false" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -99,15 +92,15 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font name="Poetsen One" size="14.0" />
+                        <Font name="Poetsen One" size="13.0" />
                      </font>
                   </PasswordField>
-                  <Button fx:id="sesionBtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#iniciarSesion" text="Registrarse" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="sesionBtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registrarse" text="Registrarse" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font name="Poetsen One" size="14.0" />
+                        <Font name="Poetsen One" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -115,9 +108,9 @@
                   </Button>
                   <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                        <ImageView fx:id="passEyeImage" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#cambiarVisibilidadContrasena" pickOnBounds="true">
+                        <ImageView fx:id="passEyeImage" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#cambiarVisibilidad" pickOnBounds="true">
                            <image>
-                              <Image url="@../images/eye-open.png" />
+                              <Image url="@../../../../../../../../Downloads/eye-close.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -132,12 +125,12 @@
             </GridPane>
             <FlowPane alignment="CENTER" prefHeight="23.0" prefWidth="350.0">
                <children>
-                  <Label text="¿Tienes una cuenta? ">
+                  <Label text="¿Ya tienes una cuenta? ">
                      <font>
-                        <Font name="Poetsen One" size="14.0" />
+                        <Font name="Poetsen One" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="createLabel" onMouseClicked="#iniciarSesion" text="INICIAR SESION" textFill="#0093ff">
+                  <Label fx:id="iniciarLabel" onMouseClicked="#iniciarSesion" text="INICIAR SESIÓN" textFill="#0093ff">
                      <font>
                         <Font name="Poetsen One" size="14.0" />
                      </font>
@@ -155,6 +148,9 @@
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="91.0" prefWidth="350.0" />
          </children>
+         <padding>
+            <Insets bottom="30.0" top="30.0" />
+         </padding>
          <effect>
             <DropShadow>
                <color>
@@ -162,18 +158,6 @@
                </color>
             </DropShadow>
          </effect>
-         <padding>
-            <Insets bottom="30.0" top="30.0" />
-         </padding>
-      </VBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: grey;">
-         <children>
-            <ImageView fx:id="imageView" cache="true" fitHeight="1078.0" fitWidth="958.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../images/bg.png" />
-               </image>
-            </ImageView>
-         </children>
       </VBox>
    </children>
-</GridPane>
+</FlowPane>

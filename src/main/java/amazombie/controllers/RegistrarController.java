@@ -29,7 +29,7 @@ import javafx.scene.layout.RowConstraints;
  *
  * @author JoseANG3L
  */
-public class SesionController {
+public class RegistrarController {
     
     @FXML private TextField usuarioField;
     @FXML private PasswordField contrasenaField;

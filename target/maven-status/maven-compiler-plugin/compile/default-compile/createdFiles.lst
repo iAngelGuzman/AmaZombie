@@ -10,6 +10,7 @@ amazombie\controllers\UsuariosController.class
 amazombie\App.class
 module-info.class
 amazombie\dao\UsuarioDao.class
+amazombie\ConexionDB.class
 amazombie\controllers\SesionController.class
 amazombie\models\Paqueteria.class
 amazombie\models\Paquete.class

@@ -76,6 +76,7 @@
                   <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <TextField fx:id="usuarioField" focusTraversable="false" promptText="Usuario" GridPane.columnIndex="1">
@@ -102,7 +103,7 @@
                         <Font name="Poetsen One" size="14.0" />
                      </font>
                   </PasswordField>
-                  <Button fx:id="sesionBtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#iniciarSesion" text="Registrarse" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="sesionBtn" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#crearCuenta" text="Registrarse" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -125,6 +126,30 @@
                         </ImageView>
                      </children>
                   </FlowPane>
+                  <TextField fx:id="confirmarContraText" focusTraversable="false" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="Poetsen One" size="14.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="confirmarContraField" focusTraversable="false" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="Poetsen One" size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <ImageView fx:id="passEyeImage2" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#cambiarVisibilidadConfirmarContrasena" pickOnBounds="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../images/eye-open.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
                <VBox.margin>
                   <Insets bottom="30.0" />

@@ -10,13 +10,19 @@ package amazombie.models;
  */
 public class Usuario {
     
+    private int id;
     private String nombre;
     private String rol;
-    private boolean activo;
 
     // Constructor
-    public Usuario(String nombre) {
+    public Usuario(int id, String nombre, String rol) {
+        this.id = id;
         this.nombre = nombre;
+        this.rol = rol;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     // Getters y Setters
@@ -32,11 +38,7 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public boolean esAdmin() {
+        return rol.equals("admin");
     }
 }

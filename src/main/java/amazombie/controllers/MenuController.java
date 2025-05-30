@@ -48,6 +48,9 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        App.setBoxContent(boxContent);
+        App.setScrollContent(scrollContent);
+        
         botonesMenu.put("inicio", inicioBtn);
         botonesMenu.put("usuarios", usuariosBtn);
         botonesMenu.put("empleados", empleadosBtn);
@@ -74,26 +77,7 @@ public class MenuController implements Initializable {
 
     @FXML
     public void cargarContenido(String ventana) throws IOException {
-        Parent vista = FXMLCache.getView(ventana);
-
-        boxContent.getChildren().clear();
-        boxContent.getChildren().add(vista);
-
-        if (vista instanceof Region region) {
-            region.maxWidthProperty().bind(scrollContent.widthProperty());
-            region.prefWidthProperty().bind(scrollContent.widthProperty());
-            region.maxHeightProperty().bind(scrollContent.heightProperty());
-            region.prefHeightProperty().bind(scrollContent.heightProperty());
-        }
-
-        // Llamar a actualizarDatos si el método existe
-        Object controller = FXMLCache.getController(ventana);
-        try {
-            Method method = controller.getClass().getMethod("actualizarDatos");
-            method.invoke(controller);
-        } catch (IllegalAccessException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
-            // No hacer nada si el método no existe
-        }
+        App.setContent(ventana);
         actualizarSeleccion(ventana);
     }
     

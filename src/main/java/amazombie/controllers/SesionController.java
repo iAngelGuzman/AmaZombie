@@ -6,6 +6,10 @@ package amazombie.controllers;
  */
 
 import amazombie.App;
+import amazombie.dao.UsuarioDao;
+import amazombie.models.Usuario;
+import amazombie.utils.GestorSesion;
+
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -31,6 +35,8 @@ import javafx.scene.layout.RowConstraints;
  */
 public class SesionController {
     
+    private UsuarioDao usuarioDao = new UsuarioDao();
+
     @FXML private TextField usuarioField;
     @FXML private PasswordField contrasenaField;
     @FXML private TextField contrasenaText;
@@ -63,7 +69,61 @@ public class SesionController {
     
     @FXML
     public void iniciarSesion() throws IOException {
-        App.setRoot("menu");
+        String nombre = usuarioField.getText();
+        String contrasena = contrasenaField.getText();
+
+        if (nombre.isEmpty() || contrasena.isEmpty()) {
+            mostrarAlerta(
+                "Formulario",
+                "Los datos no pueden quedar vacios",
+                "Agregar el usuario y contraseña",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
+        if (nombre.isEmpty()) {
+            mostrarAlerta(
+                "Formulario",
+                "El nombre de usuario no puede quedar vacio",
+                "Agrega un nombre de usuario",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
+        if (contrasena.isEmpty()) {
+            mostrarAlerta(
+                "Formulario",
+                "La contraseña no puede quedar vacia",
+                "Agrega una contraseña",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
+
+        boolean existeUsuario = usuarioDao.existeUsuario(nombre);
+        if (existeUsuario) {
+            Usuario usuario = usuarioDao.iniciarSesion(nombre, contrasena);
+            if (usuario != null) {
+                // Redirigir a otra vista según el rol si deseas
+                System.out.println("Usuario iniciado con éxito");
+                GestorSesion.iniciarSesion(usuario);
+                App.setRoot("menu");
+            } else {
+                mostrarAlerta(
+                    "Formulario",
+                    "Error al iniciar sesión",
+                    "El usuario no existe",
+                    Alert.AlertType.ERROR
+                );
+            }
+        } else {
+            mostrarAlerta(
+                "Formulario",
+                "El usuario no existe",
+                "Ingresa un nombre de usuario diferente",
+                Alert.AlertType.WARNING
+            );
+        }
     }
     
     @FXML
@@ -263,4 +323,11 @@ public class SesionController {
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
     
+    public static void mostrarAlerta(String titulo, String mensaje, String contenido, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(mensaje);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
 }

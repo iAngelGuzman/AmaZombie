@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de Sucursales</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+
+        @font-face {
+        font-family: 'SamdanEvil';
+        src: url('fonts/SamdanEvil.woff2') format('woff2'),
+             url('fonts/SamdanEvil.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'SamdanEvil', Arial, sans-serif;
+
+            font-family: Arial, sans-serif;
+            background-color: rgb(255, 199, 143);
+            color: green;
+        }
+
+        header {
+            text-align: center;
+            margin-left: 19px;
+            margin-right: 19px;
+            padding: 20px 0;
+            font-size: 3em;
+            border-bottom: 2px solid rgb(255, 255, 255);
+            box-shadow: 
+                0 0 15px rgba(17, 17, 17, 0.8),  /* Sombra interna oscura */
+                0 0 40px rgba(139, 69, 19, 0.6), /* Sombra marrón para efecto envejecido */
+                inset 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra interna para profundidad */
+            border: 10px solid rgba(139, 69, 19, 0.8); /* Bordes marrón oscuro */
+             background-color: rgb(255, 199, 143); /* Color pergamino */
+        }
+
+        .main-layout {
+            display: flex;
+            padding: 20px;
+        }
+
+        #map {
+    width: 860px;
+    height: 760px;
+    box-shadow: 
+        0 0 10px rgba(17, 17, 17, 0.8),  /* Sombra interna oscura */
+        0 0 30px rgba(139, 69, 19, 0.6), /* Sombra marrón para efecto envejecido */
+        inset 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra interna para profundidad */
+    border: 10px solid rgba(139, 69, 19, 0.8); /* Bordes marrón oscuro */
+    margin-right: 60px;
+    background-color: #A67C52; /* Color pergamino */
+}
+
+
+
+        .info-container {
+            font-family: 'SamdanEvil', Arial, sans-serif;
+            flex-grow: 1;
+            display: flex;
+            font-size: 1.5em;
+            
+            flex-direction: column;
+            gap: 20px;
+            text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+        }
+
+        .info-title {
+            font-family: 'SamdanEvil', Arial, sans-serif;
+            text-align: center;
+            font-size: 2em;
+            border-bottom: 2px solid rgb(139, 69, 19, 0.8);
+            padding-bottom: 10px;
+            text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+        }
+
+        .info-columns {
+            font-family: 'SamdanEvil', Arial, sans-serif;
+            display: flex;
+            font-size: 1em;
+            gap: 20px;
+            border-bottom: 2px solid rgb(139, 69, 19, 0.8);
+            padding-bottom: 20px;
+            text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+
+        }
+
+        .column {
+            flex: 1;
+            border-right: 1px solid rgb(139, 69, 19, 0.8);
+            padding-right: 10px;
+        }
+
+        .column:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+
+        .column h3 {
+            border-bottom: 1px solid rgb(139, 69, 19, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .column p {
+            margin: 5px 0;
+        }
+
+        .bottom-info {
+            padding-top: 10px;
+        }
+
+        .bottom-info h3 {
+            border-bottom: 1px solid rgb(139, 69, 19, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .bottom-info p {
+            margin: 5px 0;
+        }
+        header {
+            font-family: 'SamdanEvil', Arial, sans-serif;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 4em;
+            border-bottom: 2px solid rgb(255, 199, 143);
+            text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+        }
+        
+
+        .buscador {
+            
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.buscador input {
+    font-family: 'SamdanEvil', Arial, sans-serif;
+    color: rgb(0, 128, 0);
+    z-index: 9999;
+    position: absolute;
+    top:175px;
+    left: 200px;
+    padding: 10px;
+    width: 400px;
+    border: 2px solid grey;
+    border-radius: 4px;
+    font-size: 1em;
+    text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+}
+
+.buscador button {
+    font-family: 'SamdanEvil', Arial, sans-serif;
+    z-index: 99999;
+    position: absolute;
+    top: 176px;
+    left: 650px;
+    padding: 10px 20px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid grey;
+    color: rgb(0, 128, 0);
+            font-size: 0.9em;
+    text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+    border-radius: 8px;
+    cursor: pointer;
+}
+img {
+    position:absolute;
+    top: 19px;
+    left: 1200px;
+    width: 100%; /* Tamaño adaptable */
+    max-width: 90px; /* Máximo de 500px */
+}
+
+
+    </style>
+</head>
+<body>
+    <header>Mapa de Sucursales</header>
+    <img src="images/descarga.png" alt="Descripción de la imagen">
+
+
+    <div class="main-layout">
+        <div id="map"></div>
+
+        <div class="info-container" id="info">
+            <div class="info-title">Nombre de la Sucursal</div>
+            
+            <div class="info-columns">
+                <div class="column" id="col1">
+                    <h3>Ubicación</h3>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+                <div class="column" id="col2">
+                    <h3>Horario</h3>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="bottom-info" id="bottomInfo">
+                <h3>Acerca de</h3>
+                <p>Más información relevante aquí...</p>
+            </div>
+
+<div class="buscador">
+    <input type="text" id="inputBusqueda" placeholder="Buscar sucursal..." />
+    <button onclick="buscarSucursal()">Buscar</button>
+</div>
+
+        </div>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([19.5430, -96.9276], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var sucursales = [
+            {
+                id: 1,
+                lat: 19.541281806405117,
+                lng: -96.92698954560358,
+                nombre: "Sucursal Xalapa Centro",
+                datos: {
+                    col1: ["Av. Xalapa, Obrero Campesina, 91020 Xalapa-Enríquez, Ver.","Universidad Veracruzana - Facultad de Informatica, Economía, Geografía y Estadística"], //columna ubicación//
+                    col2: ["Horario de Atencion: ","Lunes: 7:00 - 8:00 pm","Martes: 7:00 - 8:00 pm","Miércoles: 7:00 - 8:00 pm","Jueves: 7:00 - 8:00 pm","Viernes: 7:00 - 8:00 pm","Sábado: 7:00 - 8:00 pm"], //columna horario//
+                    bottom: "Sucursal Principal. Sede de Altos Directivos de la empresa Amazombi. Privado"
+                }
+            },
+            {
+                id: 2,
+                lat: 19.520408662910427,
+                lng: -96.88343659472808,
+                nombre: "Sucursal Xalapa Animas",
+                datos: {
+                    col1: ["Dirección: Av. Ánimas", "Horario: 10:00 - 19:00", "Tel: 123-456-7891"],
+                    col2: ["Servicios: Atención especial", "Estacionamiento: Sí", "WiFi: No disponible"],
+                    bottom: "Sucursal con accesibilidad para personas con movilidad reducida."
+                }
+            },
+            {
+                id: 3,
+                lat: 19.538985864340603,
+                lng: -96.90718966346195,
+                nombre: "Sucursal Plaza Crystal",
+                datos: {
+                    col1: ["Dirección: Plaza Crystal", "Horario: 11:00 - 20:00", "Tel: 123-456-7892"],
+                    col2: ["Servicios: Ventas", "Estacionamiento: Amplio", "WiFi: Sí"],
+                    bottom: "Ubicada dentro de centro comercial, con múltiples servicios."
+                }
+            }
+        ];
+
+        function actualizarInfoSucursal(datos) {
+            const col1 = document.getElementById("col1");
+            const col2 = document.getElementById("col2");
+            const bottom = document.getElementById("bottomInfo");
+
+            col1.innerHTML = `<h3>Ubicación</h3>` + datos.col1.map(item => `<p>${item}</p>`).join('');
+            col2.innerHTML = `<h3>Horario</h3>` + datos.col2.map(item => `<p>${item}</p>`).join('');
+            bottom.innerHTML = `<h3>Acerca de</h3><p>${datos.bottom}</p>`;
+        }
+
+        function buscarSucursal() {
+    const nombreBuscado = document.getElementById('inputBusqueda').value.toLowerCase();
+    const sucursal = sucursales.find(s => s.nombre.toLowerCase().includes(nombreBuscado));
+
+    if (sucursal) {
+        actualizarInfoSucursal(sucursal.datos);
+        map.setView([sucursal.lat, sucursal.lng], 15);
+
+        const marker = marcadores[sucursal.id];
+        if (marker) {
+            marker.openPopup();
+        }
+
+        if (typeof window.javafxConnector !== 'undefined') {
+            window.javafxConnector.obtenerInfoSucursal(sucursal.id);
+        }
+    } else {
+        alert('Sucursal no encontrada');
+    }
+}
+
+        const marcadores = {};
+
+    sucursales.forEach(function(sucursal) {
+    const marker = L.marker([sucursal.lat, sucursal.lng])
+        .addTo(map)
+        .bindPopup(sucursal.nombre)
+        .on('click', function() {
+            actualizarInfoSucursal(sucursal.datos);
+            if (typeof window.javafxConnector !== 'undefined') {
+                window.javafxConnector.obtenerInfoSucursal(sucursal.id);
+            }
+        });
+
+    marcadores[sucursal.id] = marker; 
+});
+    </script>
+</body>
+</html>

@@ -21,6 +21,24 @@ import java.util.List;
  */
 public class PaqueteriaDao {
 
+    private static PaqueteriaDao instancia;
+    private int idPaqueteSeleccionado;
+
+    public static PaqueteriaDao getInstancia() {
+        if (instancia == null) {
+            instancia = new PaqueteriaDao();
+        }
+        return instancia;
+    }
+
+    public void setIdPaqueteSeleccionado(int idPaqueteSeleccionado) {
+        this.idPaqueteSeleccionado = idPaqueteSeleccionado;
+    }
+
+    public int getIdPaqueteSeleccionado() {
+        return idPaqueteSeleccionado;
+    }
+
     public List<Paquete> obtenerPaquetes() {
         List<Paquete> paquetes = new ArrayList<>();
 

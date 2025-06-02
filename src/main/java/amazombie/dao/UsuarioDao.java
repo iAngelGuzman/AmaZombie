@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import amazombie.models.Usuario;
 
@@ -18,6 +20,24 @@ import amazombie.models.Usuario;
  * @author JoseANG3L
  */
 public class UsuarioDao {
+
+    private static UsuarioDao instancia;
+    private int idUsuarioAEditar;
+
+    public static UsuarioDao getInstancia() {
+        if (instancia == null) {
+            instancia = new UsuarioDao();
+        }
+        return instancia;
+    }
+
+    public void setIdUsuarioAEditar(int idUsuarioAEditar) {
+        this.idUsuarioAEditar = idUsuarioAEditar;
+    }
+
+    public int getIdUsuarioAEditar() {
+        return idUsuarioAEditar;
+    }
 
     public Usuario iniciarSesion(String nombre, String contrasena) {
         String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
@@ -105,5 +125,89 @@ public class UsuarioDao {
         }
 
         return usuario;
+    }
+
+    public List<Usuario> obtenerUsuarios() {
+        List<Usuario> usuarios = new ArrayList<>();
+
+        try (Connection connection = ConexionDB.conectar()) {
+            String sql = "SELECT * FROM usuarios where rol = 'usuario'";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        usuarios.add(new Usuario(
+                                rs.getInt("id"),
+                                rs.getString("nombre"),
+                                rs.getString("rol")));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public List<Usuario> obtenerEmpleados() {
+        List<Usuario> usuarios = new ArrayList<>();
+
+        try (Connection connection = ConexionDB.conectar()) {
+            String sql = "SELECT * FROM usuarios where rol = 'admin'";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        usuarios.add(new Usuario(
+                                rs.getInt("id"),
+                                rs.getString("nombre"),
+                                rs.getString("rol")));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public Boolean actualizarUsuario(Usuario usuario) {
+        boolean exito = false;
+
+        String sql = "UPDATE usuarios SET nombre = ?, rol = ? WHERE id = ?";
+
+        try (Connection connection = ConexionDB.conectar()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, usuario.getNombre());
+            stmt.setString(2, usuario.getRol());
+            stmt.setInt(3, usuario.getId());
+
+            int filasAfectadas = stmt.executeUpdate();
+            exito = filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Muestra errores por consola (útil para depurar)
+        }
+
+        return exito;
+    }
+
+    public Boolean eliminarUsuario(int id) {
+        boolean exito = false;
+
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+
+        try (Connection connection = ConexionDB.conectar()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            int filasAfectadas = stmt.executeUpdate();
+            exito = filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Muestra errores por consola (útil para depurar)
+        }
+
+        return exito;
     }
 }

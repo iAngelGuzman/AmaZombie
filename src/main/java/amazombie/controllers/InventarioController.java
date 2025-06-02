@@ -41,8 +41,8 @@ public class InventarioController implements Initializable {
      * Initializes the controller class.
      */
 
-    private PaqueteriaDao paqueteriaDao = new PaqueteriaDao();
-    private UsuarioDao usuarioDao = new UsuarioDao();
+    private final PaqueteriaDao paqueteriaDao = PaqueteriaDao.getInstancia();
+    private final UsuarioDao usuarioDao = UsuarioDao.getInstancia();
     private List<Paquete> paquetes;
 
     @FXML
@@ -76,6 +76,11 @@ public class InventarioController implements Initializable {
         enEsperaContainer.getChildren().clear();
         procesadosContainer.getChildren().clear();
         enterradosContainer.getChildren().clear();
+
+        enviadosNuevoContainer.getChildren().clear();
+        enEsperaNuevoContainer.getChildren().clear();
+        procesadosNuevoContainer.getChildren().clear();
+        enterradosNuevoContainer.getChildren().clear();
 
         for (Paquete paquete : paquetes) {
             if (!GestorSesion.getUsuarioActual().esAdmin()) {
@@ -137,7 +142,7 @@ public class InventarioController implements Initializable {
     }
 
     public void crearTodos() {
-        todosContainer.getChildren().clear(); // Limpia para evitar acumulación
+        todosContainer.getChildren().clear();
 
         Label enviadosLabel = new Label("Enviados");
         enviadosLabel.setFont(new Font("Poetsen One", 16));
@@ -240,17 +245,17 @@ public class InventarioController implements Initializable {
         VBox productInfoVBox = new VBox();
         Label nameLabel = new Label(paquete.getNombre());
         nameLabel.setFont(new Font("Poetsen One", 14));
-        nameLabel.setStyle("-fx-text-fill: rgb(89, 0, 214);");
+        nameLabel.setStyle("-fx-text-fill: rgb(16, 16, 16);");
         VBox.setMargin(nameLabel, new Insets(0, 0, 4, 0));
 
         Label descriptionLabel = new Label(paquete.getDescripcion());
         descriptionLabel.setFont(new Font("Poetsen One", 14));
-        descriptionLabel.setStyle("-fx-text-fill: rgb(161, 0, 194);");
+        descriptionLabel.setStyle("-fx-text-fill: rgb(48, 48, 48);");
         VBox.setMargin(descriptionLabel, new Insets(0, 0, 4, 0));
 
         Label priceLabel = new Label("$" + String.format("%.2f", paquete.getPrecio()) + " MXN");
         priceLabel.setFont(new Font("Poetsen One", 14));
-        priceLabel.setStyle("-fx-text-fill: rgb(242, 117, 0);");
+        priceLabel.setStyle("-fx-text-fill: rgb(0, 112, 13);");
 
         if (GestorSesion.getUsuarioActual().esAdmin()) {
             Label usuarioLabel = new Label("Usuario: " + usuarioDao.obtenerUsuario(paquete.getUsuarioId()).getNombre());
@@ -276,6 +281,15 @@ public class InventarioController implements Initializable {
         rastrearButton.setCursor(Cursor.HAND);
         rastrearButton.setPadding(new Insets(10));
         VBox.setMargin(rastrearButton, new Insets(0, 0, 5, 0));
+
+        rastrearButton.setOnAction(e -> {
+            paqueteriaDao.setIdPaqueteSeleccionado(paquete.getId());
+            try {
+                App.setContent("rastrear");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
 
         // Button confirmarButton = new Button("Confirmar");
         // confirmarButton.setFont(new Font("Poetsen One", 14));

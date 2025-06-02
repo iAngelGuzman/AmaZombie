@@ -158,6 +158,13 @@ public class SesionController {
                 } catch (IOException ex) {
                     Logger.getLogger(SesionController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (e.getCode() == KeyCode.F1) {
+                try {
+                    inicioRapido();
+                    e.consume();
+                } catch (IOException ex) {
+                    Logger.getLogger(SesionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -254,6 +261,23 @@ public class SesionController {
                 event.consume();
             }
         });
+    }
+
+    private void inicioRapido() throws IOException {
+        Usuario usuario = usuarioDao.iniciarSesion("admin", "root");
+        if (usuario != null) {
+            // Redirigir a otra vista según el rol si deseas
+            System.out.println("Usuario iniciado con éxito");
+            GestorSesion.iniciarSesion(usuario);
+            App.setRoot("menu");
+        } else {
+            mostrarAlerta(
+                "Formulario",
+                "Error al iniciar sesión",
+                "El usuario no existe",
+                Alert.AlertType.ERROR
+            );
+        }
     }
     
     private void hacerContrasenaVisible() {

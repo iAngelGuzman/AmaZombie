@@ -149,6 +149,7 @@ public class RegistrarController {
             confirmarContraText.setText("");
             confirmarContraField.setText("");
             mostrarAlerta("Formulario", "Usuario creado", "El usuario ha sido creado correctamente", Alert.AlertType.INFORMATION);
+            App.setRoot("sesion");
         } else {
             mostrarAlerta("Formulario", "Error al crear usuario", "El usuario no ha sido creado correctamente", Alert.AlertType.ERROR);
         }

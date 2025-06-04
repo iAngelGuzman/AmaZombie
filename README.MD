@@ -2,6 +2,8 @@
 
 ## Gestión de paqueteria
 
+Nuestro programa es una gestion de paquetes con la tematica del videojuego Plants vs Zombies.
+
 ## Base de datos - MySQL
 
 Modificar la conexion en el archivo "/amazombie/dao/ConexionDB.java" con sus datos.

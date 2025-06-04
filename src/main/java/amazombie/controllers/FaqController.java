@@ -5,18 +5,28 @@
 package amazombie.controllers;
 
 import amazombie.dao.ConexionDB;
+import amazombie.dao.FaqDao;
+import amazombie.models.Faq;
+import amazombie.models.Usuario;
+
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -31,6 +41,55 @@ public class FaqController implements Initializable {
     
     @FXML private ScrollPane scrollpanel;
     @FXML private VBox faqContainer;
+    private FaqDao faqDao = new FaqDao();
+
+    public void actualizarDatos() {
+        faqContainer.getChildren().clear();
+        List<Faq> faqs = faqDao.obtenerFaqs();
+
+        for (Faq faq : faqs) {
+            faqContainer.getChildren().add(crearFaqBox(faq));
+        }
+
+    }
+
+    public static VBox crearFaqBox(Faq faq) {
+        // VBox principal
+        VBox vbox = new VBox();
+        vbox.setStyle("-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;");
+        vbox.setPadding(new Insets(10));
+        VBox.setMargin(vbox, new Insets(5)); // margen superior externo
+        //vbox.setPrefHeight(Region.USE_COMPUTED_SIZE); // o simplemente
+        //vbox.setMaxHeight(Double.MAX_VALUE);
+
+
+        // Label de título
+        Label titulo = new Label("❓ " + faq.getPregunta());
+        titulo.setTextFill(javafx.scene.paint.Color.web("#006f06"));
+        titulo.setFont(Font.font("Poetsen One", 20));
+
+        // TextArea con el mensaje
+        TextArea texto = new TextArea("💡 " + faq.getRespuesta());
+        texto.setEditable(false);
+        texto.setWrapText(true);
+        texto.setFont(Font.font("Poetsen One", 14));
+        texto.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
+        VBox.setMargin(texto, new Insets(5, 0, 0, 0)); // margen superior interno
+        //VBox.setVgrow(texto, Priority.ALWAYS);
+
+        // Calcular número de líneas estimadas (puedes refinar esto si quieres precisión real)
+        int numLineas = texto.getText().split("\n").length + 1;
+        double altoPorLinea = 20.0; // Aproximadamente para fuente de 14pt
+        texto.setPrefHeight(numLineas * altoPorLinea);
+
+
+        VBox.setVgrow(texto, Priority.ALWAYS);
+        texto.setMaxHeight(Double.MAX_VALUE);
+
+        // Agregar al VBox
+        vbox.getChildren().addAll(titulo, texto);
+        return vbox;
+    }
 
     @FXML
     public void cargarFAQ() throws SQLException{

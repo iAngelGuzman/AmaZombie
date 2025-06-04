@@ -52,9 +52,23 @@
     -fx-color: rgb(180, 0, 0);
     -fx-border-color: rgb(220, 0, 0);
 }
-#boxMenu, #scrollMenu, #scrollMenu .viewport {
+/* #boxMenu, #scrollMenu, #scrollMenu .viewport {
     -fx-background-color: #341260;
     -fx-border-color: #341260;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
+} */
+#scrollMenu, #scrollMenu .viewport {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+#boxMenu {
+    -fx-background-image: url("../images/bgMenu.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-border-color: rgb(31, 16, 58);
+    -fx-border-width: 0 4 0 0;
 }

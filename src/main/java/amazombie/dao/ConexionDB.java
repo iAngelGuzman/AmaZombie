@@ -10,8 +10,8 @@ import javafx.scene.control.ButtonType;
 public class ConexionDB {
     
     private static final String URL = "jdbc:mysql://localhost:3306/amazombie";
-    private static final String USUARIO = "root";
-    private static final String PASSWORD = "angel";
+    private static final String USUARIO = "angel";
+    private static final String PASSWORD = "root";
 
     public static Connection conectar() {
         try {

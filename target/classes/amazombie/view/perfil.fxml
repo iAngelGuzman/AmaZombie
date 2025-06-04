@@ -1,13 +1,210 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="amazombie.controllers.PerfilController">
+<GridPane fx:id="gpPerfil" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="881.0" prefWidth="1208.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="amazombie.controllers.PerfilController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Button layoutX="74.0" layoutY="36.0" mnemonicParsing="false" text="Button" />
-      <Label layoutX="74.0" layoutY="97.0" text="Label" />
+      <GridPane vgap="10.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+            <RowConstraints vgrow="ALWAYS" />
+         </rowConstraints>
+         <children>
+            <VBox fx:id="bgTitle" style="-fx-background-radius: 10; -fx-background-color: white;">
+               <children>
+                  <Label text="Perfil">
+                     <font>
+                        <Font name="Poetsen One" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </VBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.rowIndex="1">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <VBox fx:id="empleadosContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <GridPane VBox.vgrow="ALWAYS">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints vgrow="NEVER" />
+                                  <RowConstraints />
+                                </rowConstraints>
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                                       <children>
+                                          <Label text="Cada 100 puntos cerebros equivale a $1 ">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Cada 100 puntos sol equvale a $2">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" />
+                                       </GridPane.margin>
+                                    </VBox>
+                                    <VBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <Label text="Mi Recompensa">
+                                             <font>
+                                                <Font name="Poetsen One" size="24.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" />
+                                       </GridPane.margin>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" style="-fx-border-color: green; -fx-border-width: 4 4 0 0;" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="2% estimado de recompensa">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="\$4,000,000" textFill="#009732">
+                                             <font>
+                                                <Font name="Poetsen One" size="36.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Acumulados hasta ">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="31/05/2025">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Recompensa disponible a partir del ">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="31/05/2025">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" style="-fx-border-width: 4 0 0 0; -fx-border-color: green;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Puntos Sol acumulados">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="250,000" textFill="#ffaf00">
+                                             <font>
+                                                <Font name="Poetsen One" size="36.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Puntos Cerebros acumulados">
+                                             <font>
+                                                <Font name="Poetsen One" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="740,000" textFill="#7501da">
+                                             <font>
+                                                <Font name="Poetsen One" size="36.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </GridPane>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+</GridPane>

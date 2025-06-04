@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="gpInicio" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="895.0" prefWidth="997.0" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="amazombie.controllers.InicioController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <GridPane vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints vgrow="NEVER" />
+          <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox fx:id="bgTitle" style="-fx-background-radius: 10; -fx-background-color: white;">
+               <children>
+                  <Label text="Inicio">
+                     <font>
+                        <Font name="Poetsen One" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </VBox>
+            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+               <tabs>
+                  <Tab text="Noticias">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" style="-fx-border-width: 0;">
+                           <children>
+                              <ScrollPane fitToWidth="true" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-border-width: 0;">
+                                       <children>
+                                          <VBox fx:id="todosContainer" alignment="CENTER_LEFT" layoutX="14.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label text="Mantenimiento Programado" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 1 de junio de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="58.0" prefWidth="830.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Este sábado 8 de junio, nuestro sistema estará en mantenimiento desde las 00:00 hasta las 04:00 hrs. Durante ese tiempo no se podrán realizar envíos ni consultar el estado de los paquetes.&#10;Agradecemos tu comprensión." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Promoción: Envío Gratis" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 30 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="¡Aprovecha nuestra promoción especial! Todos los envíos dentro del estado serán gratis del 1 al 7 de junio para clientes registrados.&#10;Activa tu cuenta y disfruta del beneficio." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Nueva Sucursal Abierta" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 28 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="60.0" prefWidth="823.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="¡Estamos creciendo! Ya puedes realizar envíos y recolecciones en nuestra nueva sucursal de Colonia Industrial, Av. Revolución #231.&#10;Horario de atención: Lunes a sábado, 9:00 a 18:00 hrs." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Retrasos por Clima" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 29 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Informamos que algunos envíos en la región norte podrían presentar retrasos de 24 a 48 horas debido a fuertes lluvias y cierre de carreteras.&#10;Nuestro equipo trabaja para minimizar el impacto." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Empleado Destacado del Mes" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 1 de junio de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="58.0" prefWidth="830.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Felicitamos a José Martínez, repartidor de la zona centro, por ser nuestro Empleado del Mes gracias a su compromiso, puntualidad y atención al cliente.&#10;¡Gracias por tu excelente trabajo!" wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Promociones">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" style="-fx-border-width: 0;">
+                           <children>
+                              <ScrollPane fitToWidth="true" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-border-width: 0;">
+                                       <children>
+                                          <VBox fx:id="todosContainer1" alignment="CENTER_LEFT" layoutX="14.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label text="Envíos Gratis por Registro" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 1 de junio de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="39.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="¿Primera vez usando nuestro servicio? Regístrate hoy y recibe 1 envío gratis para cualquier destino nacional.&#10;Válido hasta el 15 de junio." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="2x1 en Envíos Locales" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 31 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="43.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Solo esta semana: Paga 1 envío local y el segundo va gratis.&#10;Aplica en rutas dentro de la misma ciudad. Promoción válida del 3 al 7 de junio." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="10% de Descuento con Tarjeta Digital" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 30 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Paga con cualquier tarjeta digital (como Apple Pay o tarjetas virtuales) y obtén un 10% de descuento en tu envío.&#10;Promoción válida todo junio." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Envío Exprés al Precio Normal" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 1 de junio de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Durante los fines de semana de junio, el envío exprés costará lo mismo que el envío estándar.&#10;¡Recibe tu paquete en menos de 24 horas sin pagar extra!" wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Programa de Referidos" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Publicado el 29 de mayo de 2025" textFill="#4d4d4d">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="60.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Invita a tus amigos a usar nuestra app. Por cada persona que se registre y realice su primer envío, tú recibirás $50 pesos de crédito para tus próximos envíos.&#10;¡Entre más invites, más ganas!" wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Cargos adicionales">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" style="-fx-border-width: 0;">
+                           <children>
+                              <ScrollPane fitToWidth="true" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-border-width: 0;">
+                                       <children>
+                                          <VBox fx:id="todosContainer11" alignment="CENTER_LEFT" layoutX="14.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label text="Sobrepeso" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="44.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Se aplicará un cargo adicional de $25 MXN por cada kilogramo adicional si el paquete excede el peso máximo permitido para su categoría." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Dimensiones excesivas" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="3.0" prefWidth="836.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Si el paquete supera las dimensiones estándar (50x50x50 cm), se agregará un recargo de $40 MXN por manejo especial." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Entrega fuera de horario" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Envíos solicitados para entrega fuera del horario laboral (después de las 19:00) tienen un cargo extra de $60 MXN." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Intento de entrega fallido" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Si no se puede entregar un paquete por ausencia del destinatario, se aplicará una tarifa de $30 MXN por segundo intento." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Envíos a zonas extendidas" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="36.0" prefWidth="793.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Para zonas consideradas de difícil acceso o de cobertura limitada, se cobra un cargo adicional de $50 MXN." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;">
+                                                   <children>
+                                                      <Label text="Reempaque" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="43.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="Si el paquete no está adecuadamente sellado y requiere reempaque, se generará un cargo de $15 MXN por materiales y mano de obra." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Indemnización">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" style="-fx-border-width: 0;">
+                           <children>
+                              <ScrollPane fitToWidth="true" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-border-width: 0;">
+                                       <children>
+                                          <VBox fx:id="todosContainer111" alignment="CENTER_LEFT" layoutX="14.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label text="Indemnización por Daños o Pérdida" textFill="#006f06">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextArea editable="false" prefHeight="549.0" prefWidth="843.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-color: transparent;" text="📦 Cobertura Básica (Incluida)&#10;&#10;    Todos los paquetes cuentan con una cobertura básica de hasta $500 MXN en caso de pérdida o daño, siempre que el contenido haya sido declarado correctamente al momento del envío.&#10;&#10;    Esta cobertura no aplica si el paquete fue mal embalado por el remitente.&#10;&#10;💰 Cobertura Adicional (Opcional)&#10;&#10;    Puedes adquirir una cobertura adicional por el 5% del valor declarado del paquete.&#10;&#10;    Esta opción amplía la indemnización hasta un máximo de $10,000 MXN.&#10;&#10;⏱ Retrasos Significativos&#10;&#10;    Si un envío exprés se retrasa más de 48 horas, se podrá solicitar un reembolso parcial del costo de envío, previa evaluación.&#10;&#10;❌ Exclusiones&#10;&#10;    No se indemnizan artículos prohibidos, perecederos, mal embalados o enviados sin documentación adecuada.&#10;&#10;    No aplica en casos de fuerza mayor (desastres naturales, disturbios, etc.).&#10;&#10;📄 ¿Cómo solicitar una indemnización?&#10;&#10;    Reporta el incidente dentro de las 72 horas posteriores a la entrega fallida o dañada.&#10;&#10;    Presenta la guía de envío, comprobante de valor y evidencia del daño o pérdida.&#10;&#10;    La solicitud será evaluada y respondida en un plazo de 5 a 10 días hábiles." wrapText="true">
+                                                         <font>
+                                                            <Font name="Poetsen One" size="14.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </GridPane>
+   </children>
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+</GridPane>

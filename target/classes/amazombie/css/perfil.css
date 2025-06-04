@@ -1,0 +1,24 @@
+#gpPerfil {
+    -fx-background-image: url("../images/bgInicio.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+#tabPane .tab .tab-label {
+    -fx-font-size: 14px;
+    -fx-font-family: "Poetsen One";
+}
+
+#tabPane .tab {
+    -fx-pref-height: 30px;
+}
+
+#tabPane .tab-label {
+    -fx-padding: 0 10 0 10; /* top right bottom left */
+}
+
+.text-area .content {
+    -fx-padding: 0;
+    -fx-background-color: white;
+}

@@ -1,7 +1,9 @@
 #AmaZombie
 ## Gestión de paqueteria
 
-## Base de datos
+## Base de datos - MySQL
+
+Modificar la conexion en el archivo 
 Para este programa se utilizo la base de datos MySQL, es importante ejecutar el siguiente query.
 
 ```

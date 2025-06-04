@@ -4,7 +4,7 @@
 ## Base de datos
 Para este programa se utilizo la base de datos MySQL, es importante ejecutar el siguiente query.
 
-``
+```
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -30,4 +30,4 @@ CREATE TABLE faq (
 
 INSERT INTO usuarios (nombre, contrasena, rol) VALUES
 ('admin', 'root', 'admin');
-``
+```

@@ -1,9 +1,17 @@
-#AmaZombie
+#AmaZombie - (Plants vs Zombies)
+
 ## Gestión de paqueteria
 
 ## Base de datos - MySQL
 
-Modificar la conexion en el archivo 
+Modificar la conexion en el archivo "/amazombie/dao/ConexionDB.java" con sus datos.
+
+```
+private static final String URL = "jdbc:mysql://localhost:3306/amazombie
+private static final String USUARIO = "angel";
+private static final String PASSWORD = "root";
+```
+
 Para este programa se utilizo la base de datos MySQL, es importante ejecutar el siguiente query.
 
 ```

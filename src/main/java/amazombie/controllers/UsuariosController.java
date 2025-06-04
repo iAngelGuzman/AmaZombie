@@ -62,14 +62,11 @@ public class UsuariosController implements Initializable {
         }
 
     }
-<<<<<<< HEAD
-    
+
     @FXML
     public void abrirAgregar() throws IOException {
         App.setContent("usuariosAgregar");
     }
-=======
->>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
 
     public GridPane crearHeader(Usuario usuario) {
         // Crear el GridPane

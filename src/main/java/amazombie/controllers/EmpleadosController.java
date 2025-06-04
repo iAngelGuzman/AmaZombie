@@ -49,11 +49,14 @@ public class EmpleadosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
+<<<<<<< HEAD
     
     @FXML
     public void abrirAgregar() throws IOException {
         App.setContent("empleadosAgregar");
     }
+=======
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
 
     public void actualizarDatos() {
         empleadosContainer.getChildren().clear();

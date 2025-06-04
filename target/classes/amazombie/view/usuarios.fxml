@@ -29,6 +29,7 @@
           <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+<<<<<<< HEAD
             <HBox style="-fx-background-color: white; -fx-background-radius: 10;">
                <padding>
                   <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
@@ -54,6 +55,20 @@
                   </VBox>
                </children>
             </HBox>
+=======
+            <VBox fx:id="bgTitle" style="-fx-background-radius: 10; -fx-background-color: white;">
+               <children>
+                  <Label text="Usuarios">
+                     <font>
+                        <Font name="Poetsen One" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </VBox>
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
             <ScrollPane fitToWidth="true" GridPane.rowIndex="1">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">

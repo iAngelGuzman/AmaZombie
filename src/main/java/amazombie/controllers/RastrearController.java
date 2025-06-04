@@ -43,7 +43,11 @@ public class RastrearController implements Initializable {
     
     @FXML private Button recompensa;
 
+<<<<<<< HEAD
     private int paso = 1;
+=======
+    private int paso = 0;
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
     private double posicionY = 0;
 
     private final String[] mensajes = {
@@ -55,6 +59,7 @@ public class RastrearController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+<<<<<<< HEAD
         cerebros = Arrays.asList(cerebro1, cerebro2, cerebro3, cerebro4, cerebro5);
         lineas = Arrays.asList(linea1, linea2, linea3, linea4, linea5);
 
@@ -108,12 +113,50 @@ public class RastrearController implements Initializable {
         for (ImageView cerebro : cerebros) {
             cerebro.setEffect(null);
         }
+=======
+        // cerebros = Arrays.asList(cerebro1, cerebro2, cerebro3, cerebro4, cerebro5);
+        // lineas = Arrays.asList(linea1, linea2, linea3, linea4, linea5);
+
+        // // Validar si alguno está null
+        // for (int i = 0; i < cerebros.size(); i++) {
+        //     if (cerebros.get(i) == null) {
+        //         System.err.println("cerebro" + (i + 1) + " está null. Revisa el fx:id en el FXML.");
+        //     }
+        // }
+        // for (int j = 1; j < lineas.size(); j++) {
+        //     if (lineas.get(j) == null) {
+        //         System.err.println("linea" + (j + 1) + " está null. Revisa el fx:id en el FXML.");
+        //     } else {
+        //         lineas.get(j).setOpacity(0); // Ocultar todas las líneas al inicio
+        //     }
+        //         for (int i = 0; i < cerebros.size(); i++) {
+        //       final int index = i;
+        //       ImageView cerebro = cerebros.get(i);
+
+        //       if (cerebro != null) {
+        //           cerebro.setOnMouseClicked(event -> {
+        //               if (index < paso - 1) {
+        //                   Mensaje1.setText(mensajes[index]);
+        //                   Mensaje1.setStyle("-fx-text-fill: gray;");
+        //                   recompensa.setVisible(true); // mostrar botón solo para cerebros anteriores
+        //               } else {
+        //                   recompensa.setVisible(false); // ocultar si se hace clic en un cerebro futuro o actual
+        //               }
+        //           });
+        //       }
+        //   }
+
+        // recompensa.setVisible(false); // ocultar al inicio
+
+        // }
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
     }
 
     @FXML
     private void regresar() throws IOException {
         App.setContent("inventario");
     }
+<<<<<<< HEAD
     
     @FXML
     private void moverPaquete(int direccion) {
@@ -122,10 +165,22 @@ public class RastrearController implements Initializable {
         int nuevoPaso = paso + direccion;
 
         if (nuevoPaso < 1 || nuevoPaso > cerebros.size()) {
+=======
+
+    @FXML
+    private void Moverpaquete() {
+        // Desactivar el botón mientras se mueve
+        Paquetes.setDisable(true);
+
+        if (paso == 0) {
+            Mensaje1.setText("Preparando paquete...");
+            paso++;
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
             Paquetes.setDisable(false);
             return;
         }
 
+<<<<<<< HEAD
         posicionY += direccion * 60;
 
         TranslateTransition transicion = new TranslateTransition(Duration.millis(300), Paquetes);
@@ -157,11 +212,53 @@ public class RastrearController implements Initializable {
                 if (cerebro != null) {
                     if (i < paso - 1) {
                         // Cerebros anteriores: aplicar gris
+=======
+        int index = paso - 1;
+
+        // Mostrar mensaje
+        if (index < mensajes.length) {
+            Mensaje1.setText(mensajes[index]);
+            recompensa.setVisible(false); // Ocultar cualquier recompensa al avanzar
+
+
+        }
+
+        // Ocultar la línea anterior
+        if (index >= 0 && index < lineas.size()-1) {
+            ImageView lineaAnterior = lineas.get(index);
+            if (lineaAnterior != null) {
+                lineaAnterior.setOpacity(0);
+            }
+        }
+
+        // Mostrar la línea actual
+        if (index < lineas.size() - 1) {
+            ImageView linea = lineas.get(index + 1);
+            if (linea != null) {
+                linea.setOpacity(1);
+            }
+        }
+
+        // Mover el paquete (imagen del botón)
+        if (paso < cerebros.size()) {
+            // Calcular posición final antes de iniciar animación
+            posicionY += 60;
+
+            TranslateTransition transicion = new TranslateTransition(Duration.millis(300), Paquetes);
+            transicion.setToY(posicionY); // Movimiento absoluto, no relativo
+
+            transicion.setOnFinished(event -> {
+                // Cambiar cerebro anterior a gris
+                if (index < cerebros.size()) {
+                    ImageView cerebro = cerebros.get(index);
+                    if (cerebro != null) {
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
                         ColorAdjust gris = new ColorAdjust();
                         gris.setSaturation(-1);
                         gris.setBrightness(-0.2);
                         gris.setContrast(-0.1);
                         cerebro.setEffect(gris);
+<<<<<<< HEAD
                     } else {
                         // Cerebro actual y siguientes: sin efecto
                         cerebro.setEffect(null);
@@ -183,6 +280,19 @@ public class RastrearController implements Initializable {
     @FXML
     private void retroceder() {
         moverPaquete(-1);
+=======
+                    }
+                }
+                Paquetes.setDisable(false); // Reactivar botón solo al terminar animación
+            });
+
+            transicion.play();
+        } else {
+            Paquetes.setDisable(false);
+        }
+
+        paso++;
+>>>>>>> 64e2d73579afc4c5b7566445188310caf25e9c6c
     }
 
 }

@@ -1,5 +1,7 @@
 # AmaZombie - (Plants vs Zombies)
 
+ ![Menu de App](https://github.com/iAngelGuzman/AmaZombie/blob/master/app.png)
+
 ## Gestión de paqueteria
 
 Nuestro programa es una gestion de paquetes con la tematica del videojuego Plants vs Zombies.

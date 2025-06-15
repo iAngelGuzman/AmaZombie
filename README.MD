@@ -8,7 +8,7 @@ Nuestro programa es una gestion de paquetes con la tematica del videojuego Plant
 
 ## Base de datos - MySQL
 
-Modificar la conexion en el archivo "/amazombie/dao/ConexionDB.java" con sus datos.
+Modificar la conexion en el archivo "/amazombie/dao/ConexionDB.java" con sus datos de MySQL.
 
 ```
 private static final String URL = "jdbc:mysql://localhost:3306/amazombie
@@ -33,7 +33,31 @@ CREATE TABLE paquetes (
     descripcion TEXT,
     precio DECIMAL(10,2),
     estado ENUM('espera', 'enviado', 'procesado', 'enterrado') DEFAULT 'espera',
-    ruta ENUM('listo', 'camino', 'llegando', 'entregado') DEFAULT 'listo',
+    ruta ENUM('preparando', 'listo', 'camino', 'llegando', 'entregado') DEFAULT 'preparando',
+    guia VARCHAR(50) UNIQUE,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    origen VARCHAR(250) NOT NULL,
+    destino VARCHAR(250) NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE reportes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    asunto VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    respuesta TEXT,
+    estado ENUM('pendiente', 'resuelto') DEFAULT 'pendiente',
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE solicitudes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    razon TEXT,
+    estado ENUM('pendiente', 'aceptada', 'rechazada') DEFAULT 'pendiente',
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
@@ -46,8 +70,37 @@ CREATE TABLE faq (
 INSERT INTO usuarios (nombre, contrasena, rol) VALUES
 ('admin', 'root', 'admin');
 
-INSERT INTO paquetes (usuario_id, nombre, descripcion, precio, estado, ruta)
-VALUES (1, 'Paquete Básico', 'Incluye equipo inicial y bonus de monedas', 19.99, 'enviado', 'listo');
+INSERT INTO paquetes (
+    usuario_id,
+    nombre,
+    descripcion,
+    precio,
+    estado,
+    ruta,
+    guia,
+    origen,
+    destino
+) VALUES (
+    1, -- ID del usuario que envía el paquete
+    'Libros Varios',
+    'Caja con 10 libros de literatura y ensayos.',
+    50.75,
+    'espera',
+    'preparando',
+    'PQT7890123456789',
+    'Calle Falsa 123, Ciudad de México',
+    'Avenida Siempre Viva 742, Guadalajara'
+);
+
+INSERT INTO solicitudes (
+    usuario_id,
+    razon,
+    estado
+) VALUES (
+    1,
+    'Solicitud para cambiar dirección de entrega del paquete PQT789012345.',
+    'pendiente'
+);
 
 INSERT INTO faq (pregunta, respuesta) VALUES
 ('¿Cuáles son los límites de peso y tamaño para envíos nacionales e internacionales?','Los envíos nacionales permiten paquetes de hasta 30 kg, con dimensiones máximas de 150 cm en cualquier lado. Para envíos internacionales, el límite varía según el destino, pero suele ser de 70 kg, con restricciones adicionales según las aduanas locales.'),

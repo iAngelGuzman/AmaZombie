@@ -32,7 +32,8 @@ CREATE TABLE paquetes (
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2),
-    estado ENUM('pendiente', 'enviado', 'entregado', 'cancelado') DEFAULT 'pendiente',
+    estado ENUM('espera', 'enviado', 'procesado', 'enterrado') DEFAULT 'espera',
+    ruta ENUM('listo', 'camino', 'llegando', 'entregado') DEFAULT 'listo',
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
@@ -45,14 +46,8 @@ CREATE TABLE faq (
 INSERT INTO usuarios (nombre, contrasena, rol) VALUES
 ('admin', 'root', 'admin');
 
-INSERT INTO paquetes (usuario_id, nombre, descripcion, precio, estado)
-VALUES (1, 'Paquete Básico', 'Incluye equipo inicial y bonus de monedas', 19.99, 'enviado');
-
-INSERT INTO paquetes (usuario_id, nombre, descripcion, precio, estado)
-VALUES (2, 'Paquete Avanzado', 'Incluye equipo inicial y bonus de monedas', 19.99, 'enviado');
-
-INSERT INTO paquetes (usuario_id, nombre, descripcion, precio, estado)
-VALUES (3, 'Paquete Intermedio', 'Incluye equipo inicial y bonus de monedas', 19.99, 'enviado');
+INSERT INTO paquetes (usuario_id, nombre, descripcion, precio, estado, ruta)
+VALUES (1, 'Paquete Básico', 'Incluye equipo inicial y bonus de monedas', 19.99, 'enviado', 'listo');
 
 INSERT INTO faq (pregunta, respuesta) VALUES
 ('¿Cuáles son los límites de peso y tamaño para envíos nacionales e internacionales?','Los envíos nacionales permiten paquetes de hasta 30 kg, con dimensiones máximas de 150 cm en cualquier lado. Para envíos internacionales, el límite varía según el destino, pero suele ser de 70 kg, con restricciones adicionales según las aduanas locales.'),

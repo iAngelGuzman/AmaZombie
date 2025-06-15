@@ -28,11 +28,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class RegistrarController {
 
     private UsuarioDao usuarioDao = new UsuarioDao();

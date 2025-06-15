@@ -31,11 +31,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class EmpleadosAgregarController implements Initializable {
 
     /**
@@ -54,6 +50,7 @@ public class EmpleadosAgregarController implements Initializable {
         //nombreField.setText(usuarioDao.obtenerUsuario(usuarioDao.getIdUsuarioAEditar()).getNombre());
     }
 
+    @FXML
     public void regresar() throws IOException {
         App.setContent("usuarios");
     }

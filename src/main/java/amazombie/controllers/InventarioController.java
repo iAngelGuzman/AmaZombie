@@ -8,6 +8,8 @@ import amazombie.App;
 import amazombie.dao.PaqueteriaDao;
 import amazombie.dao.UsuarioDao;
 import amazombie.models.Paquete;
+import amazombie.utils.Estado;
+import amazombie.utils.GestorPaquete;
 import amazombie.utils.GestorSesion;
 
 import java.io.ByteArrayInputStream;
@@ -18,7 +20,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -29,12 +34,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class InventarioController implements Initializable {
 
     /**
@@ -48,16 +52,19 @@ public class InventarioController implements Initializable {
     @FXML
     private VBox todosContainer;
     @FXML
-    private VBox enviadosContainer;
-    @FXML
     private VBox enEsperaContainer;
+    @FXML
+    private VBox enviadosContainer;
     @FXML
     private VBox procesadosContainer;
     @FXML
     private VBox enterradosContainer;
 
-    VBox enviadosNuevoContainer = new VBox();
+    @FXML
+    private Button agregarBtn;
+
     VBox enEsperaNuevoContainer = new VBox();
+    VBox enviadosNuevoContainer = new VBox();
     VBox procesadosNuevoContainer = new VBox();
     VBox enterradosNuevoContainer = new VBox();
 
@@ -65,20 +72,28 @@ public class InventarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // crearEnviados();
-
+        // TODO
     }
-
+    
+    @FXML
+    public void abrirAgregar() throws IOException {
+        App.setContent("inventarioAgregar");
+    }
+    
     public void actualizarDatos() {
+        if (!GestorSesion.getUsuarioActual().esAdmin()) {
+            agregarBtn.setVisible(false);
+            agregarBtn.setManaged(false);
+        }
         paquetes = paqueteriaDao.obtenerPaquetes();
         todosContainer.getChildren().clear();
-        enviadosContainer.getChildren().clear();
         enEsperaContainer.getChildren().clear();
+        enviadosContainer.getChildren().clear();
         procesadosContainer.getChildren().clear();
         enterradosContainer.getChildren().clear();
 
-        enviadosNuevoContainer.getChildren().clear();
         enEsperaNuevoContainer.getChildren().clear();
+        enviadosNuevoContainer.getChildren().clear();
         procesadosNuevoContainer.getChildren().clear();
         enterradosNuevoContainer.getChildren().clear();
 
@@ -89,19 +104,19 @@ public class InventarioController implements Initializable {
                 }
             }
             switch (paquete.getEstado().toLowerCase()) {
-                case "enviado" -> {
-                    enviadosContainer.getChildren().add(crearPaquete(paquete));
-                    enviadosNuevoContainer.getChildren().add(crearPaquete(paquete));
-                }
-                case "en espera" -> {
+                case Estado.ESPERA -> {
                     enEsperaContainer.getChildren().add(crearPaquete(paquete));
                     enEsperaNuevoContainer.getChildren().add(crearPaquete(paquete));
                 }
-                case "procesado" -> {
+                case Estado.ENVIADO -> {
+                    enviadosContainer.getChildren().add(crearPaquete(paquete));
+                    enviadosNuevoContainer.getChildren().add(crearPaquete(paquete));
+                }
+                case Estado.PROCESADO -> {
                     procesadosContainer.getChildren().add(crearPaquete(paquete));
                     procesadosNuevoContainer.getChildren().add(crearPaquete(paquete));
                 }
-                case "enterrado" -> {
+                case Estado.ENTERRADO -> {
                     enterradosContainer.getChildren().add(crearPaquete(paquete));
                     enterradosNuevoContainer.getChildren().add(crearPaquete(paquete));
                 }
@@ -110,19 +125,19 @@ public class InventarioController implements Initializable {
 
         crearTodos();
 
-        if (enviadosContainer.getChildren().isEmpty()) {
-            Label label = new Label("No hay paquetes enviados.");
-            label.setFont(new Font("Poetsen One", 16));
-            label.setStyle("-fx-text-fill:rgb(150, 150, 150);");
-            VBox.setMargin(label, new Insets(10, 0, 0, 0));
-            enviadosContainer.getChildren().add(label);
-        }
         if (enEsperaContainer.getChildren().isEmpty()) {
             Label label = new Label("No hay paquetes en espera.");
             label.setFont(new Font("Poetsen One", 16));
             label.setStyle("-fx-text-fill: rgb(150, 150, 150);");
             VBox.setMargin(label, new Insets(10, 0, 0, 0));
             enEsperaContainer.getChildren().add(label);
+        }
+        if (enviadosContainer.getChildren().isEmpty()) {
+            Label label = new Label("No hay paquetes enviados.");
+            label.setFont(new Font("Poetsen One", 16));
+            label.setStyle("-fx-text-fill:rgb(150, 150, 150);");
+            VBox.setMargin(label, new Insets(10, 0, 0, 0));
+            enviadosContainer.getChildren().add(label);
         }
         if (procesadosContainer.getChildren().isEmpty()) {
             Label label = new Label("No hay paquetes procesados.");
@@ -144,6 +159,19 @@ public class InventarioController implements Initializable {
     public void crearTodos() {
         todosContainer.getChildren().clear();
 
+        Label enEsperaLabel = new Label("En Espera");
+        enEsperaLabel.setFont(new Font("Poetsen One", 16));
+        VBox.setMargin(enEsperaLabel, new Insets(5, 0, 5, 0));
+        todosContainer.getChildren().addAll(enEsperaLabel, enEsperaNuevoContainer);
+        
+        if (enEsperaNuevoContainer.getChildren().isEmpty()) {
+            Label label = new Label("No hay paquetes en espera.");
+            label.setFont(new Font("Poetsen One", 16));
+            label.setStyle("-fx-text-fill: rgb(150, 150, 150);");
+            VBox.setMargin(label, new Insets(5, 0, 20, 0));
+            todosContainer.getChildren().add(label);
+        }
+
         Label enviadosLabel = new Label("Enviados");
         enviadosLabel.setFont(new Font("Poetsen One", 16));
         VBox.setMargin(enviadosLabel, new Insets(0, 0, 5, 0));
@@ -156,20 +184,7 @@ public class InventarioController implements Initializable {
             VBox.setMargin(label, new Insets(5, 0, 20, 0));
             todosContainer.getChildren().add(label);
         }
-
-        Label enEsperaLabel = new Label("En Espera");
-        enEsperaLabel.setFont(new Font("Poetsen One", 16));
-        VBox.setMargin(enEsperaLabel, new Insets(5, 0, 5, 0));
-        todosContainer.getChildren().addAll(enEsperaLabel, enEsperaNuevoContainer);
-
-        if (enEsperaNuevoContainer.getChildren().isEmpty()) {
-            Label label = new Label("No hay paquetes en espera.");
-            label.setFont(new Font("Poetsen One", 16));
-            label.setStyle("-fx-text-fill: rgb(150, 150, 150);");
-            VBox.setMargin(label, new Insets(5, 0, 20, 0));
-            todosContainer.getChildren().add(label);
-        }
-
+        
         Label procesadosLabel = new Label("Procesados");
         procesadosLabel.setFont(new Font("Poetsen One", 16));
         VBox.setMargin(procesadosLabel, new Insets(5, 0, 5, 0));
@@ -198,14 +213,6 @@ public class InventarioController implements Initializable {
     }
 
     public GridPane crearPaquete(Paquete paquete) {
-        // VBox rootVBox = new VBox();
-        // VBox.setVgrow(rootVBox, Priority.ALWAYS);
-
-        // // Label: "Enviados"
-        // Label enviadosLabel = new Label("Enviados");
-        // enviadosLabel.setFont(new Font("Poetsen One", 16));
-        // VBox.setMargin(enviadosLabel, new Insets(0, 0, 10, 0));
-
         // GridPane
         GridPane gridPane = new GridPane();
         gridPane.setHgap(8);
@@ -249,6 +256,11 @@ public class InventarioController implements Initializable {
         descriptionLabel.setStyle("-fx-text-fill: rgb(48, 48, 48);");
         VBox.setMargin(descriptionLabel, new Insets(0, 0, 4, 0));
 
+        Label origenDestinoLabel = new Label(paquete.getOrigen() + " -> " + paquete.getDestino());
+        origenDestinoLabel.setFont(new Font("Poetsen One", 14));
+        origenDestinoLabel.setStyle("-fx-text-fill: rgb(48, 48, 48);");
+        VBox.setMargin(origenDestinoLabel, new Insets(0, 0, 4, 0));
+
         Label priceLabel = new Label("$" + String.format("%.2f", paquete.getPrecio()) + " MXN");
         priceLabel.setFont(new Font("Poetsen One", 14));
         priceLabel.setStyle("-fx-text-fill: rgb(0, 112, 13);");
@@ -260,30 +272,67 @@ public class InventarioController implements Initializable {
             VBox.setMargin(usuarioLabel, new Insets(0, 0, 5, 0));
             productInfoVBox.getChildren().add(usuarioLabel);
         }
-        productInfoVBox.getChildren().addAll(nameLabel, descriptionLabel, priceLabel);
+        productInfoVBox.getChildren().addAll(nameLabel, descriptionLabel, origenDestinoLabel, priceLabel);
         gridPane.add(productInfoVBox, 1, 0);
 
-        // VBox column 2 (Buttons and Quantity)
+        // Acciones
         VBox actionVBox = new VBox();
-        actionVBox.setAlignment(javafx.geometry.Pos.BOTTOM_CENTER);
+        actionVBox.setAlignment(Pos.CENTER);
 
-        Label quantityLabel = new Label("+200");
-        quantityLabel.setFont(new Font("Poetsen One", 18));
-        VBox.setMargin(quantityLabel, new Insets(0, 0, 15, 0));
+        Button editarButton = new Button("Editar");
+        editarButton.setFont(new Font("Poetsen One", 14));
+        editarButton.setPrefWidth(110);
+        editarButton.setCursor(Cursor.HAND);
+        editarButton.setPadding(new Insets(6));
+        VBox.setMargin(editarButton, new Insets(0, 0, 6, 0));
 
         Button rastrearButton = new Button("Rastrear");
         rastrearButton.setFont(new Font("Poetsen One", 14));
         rastrearButton.setPrefWidth(110);
         rastrearButton.setCursor(Cursor.HAND);
-        rastrearButton.setPadding(new Insets(10));
-        VBox.setMargin(rastrearButton, new Insets(0, 0, 5, 0));
+        rastrearButton.setPadding(new Insets(6));
+        VBox.setMargin(rastrearButton, new Insets(0, 0, 6, 0));
+
+        Button facturaButton = new Button("Facturar");
+        facturaButton.setFont(new Font("Poetsen One", 14));
+        facturaButton.setPrefWidth(110);
+        facturaButton.setCursor(Cursor.HAND);
+        facturaButton.setPadding(new Insets(6));
+
+        editarButton.setOnAction(e -> {
+            try {
+                GestorPaquete.setPaqueteActual(paquete);
+                App.setContent("inventarioEditar");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
 
         rastrearButton.setOnAction(e -> {
-            paqueteriaDao.setIdPaqueteSeleccionado(paquete.getId());
             try {
+                GestorPaquete.setPaqueteActual(paquete);
                 App.setContent("rastrear");
             } catch (IOException e1) {
                 e1.printStackTrace();
+            }
+        });
+
+        facturaButton.setOnAction(e -> {
+            GestorPaquete.setPaqueteActual(paquete);
+            Stage stage = new Stage();
+            try {
+                stage.setScene(new Scene(App.loadFXML("factura")));
+                stage.setTitle("Factura de Paquete");
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(InventarioController.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error al abrir la factura");
+                alert.showAndWait();
+                ex.printStackTrace();
             }
         });
 
@@ -293,7 +342,8 @@ public class InventarioController implements Initializable {
         // confirmarButton.setCursor(Cursor.HAND);
         // confirmarButton.setPadding(new Insets(5));
 
-        actionVBox.getChildren().addAll(quantityLabel, rastrearButton);
+        actionVBox.getChildren().addAll(editarButton, rastrearButton, facturaButton);
+
         gridPane.add(actionVBox, 2, 0);
 
         // Assemble VBox

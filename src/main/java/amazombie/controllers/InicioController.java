@@ -11,11 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class InicioController implements Initializable {
 
     /**

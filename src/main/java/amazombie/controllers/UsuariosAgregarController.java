@@ -31,11 +31,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class UsuariosAgregarController implements Initializable {
 
     /**

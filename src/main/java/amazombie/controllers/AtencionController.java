@@ -4,10 +4,19 @@
  */
 package amazombie.controllers;
 
+import amazombie.App;
 import amazombie.dao.ConexionDB;
 import amazombie.dao.FaqDao;
+import amazombie.dao.PaqueteriaDao;
+import amazombie.dao.ReporteDao;
 import amazombie.models.Faq;
+import amazombie.models.Paquete;
 import amazombie.models.Usuario;
+import amazombie.utils.Estado;
+import amazombie.utils.GestorSesion;
+import amazombie.utils.Ruta;
+
+import java.io.IOException;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -23,122 +32,156 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
  *
  * @author manac
  */
-public class FaqController implements Initializable {
+public class AtencionController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
     
+    private final PaqueteriaDao paqueteriaDao = PaqueteriaDao.getInstancia();
+    private final ReporteDao reporteDao = ReporteDao.getInstancia();
+
     @FXML private ScrollPane scrollpanel;
     @FXML private VBox faqContainer;
-    private FaqDao faqDao = new FaqDao();
+    @FXML private TextField guiaField;
 
-    public void actualizarDatos() {
-        faqContainer.getChildren().clear();
-        List<Faq> faqs = faqDao.obtenerFaqs();
+    @FXML private Label guiaLabel;
+    @FXML private Label nombreLabel;
+    @FXML private Label descripcionLabel;
+    @FXML private Label origenLabel;
+    @FXML private Label destinoLabel;
+    @FXML private Label estadoLabel;
+    @FXML private Label rutaLabel;
+    @FXML private Label precioLabel;
 
-        for (Faq faq : faqs) {
-            faqContainer.getChildren().add(crearFaqBox(faq));
-        }
+    @FXML private TextField asuntoField;
+    @FXML private TextArea descripcionArea;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // TODO
     }
-
-    public static VBox crearFaqBox(Faq faq) {
-        // VBox principal
-        VBox vbox = new VBox();
-        vbox.setStyle("-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;");
-        vbox.setPadding(new Insets(10));
-        VBox.setMargin(vbox, new Insets(5)); // margen superior externo
-        //vbox.setPrefHeight(Region.USE_COMPUTED_SIZE); // o simplemente
-        //vbox.setMaxHeight(Double.MAX_VALUE);
-
-
-        // Label de título
-        Label titulo = new Label("❓ " + faq.getPregunta());
-        titulo.setTextFill(javafx.scene.paint.Color.web("#006f06"));
-        titulo.setFont(Font.font("Poetsen One", 20));
-
-        // TextArea con el mensaje
-        TextArea texto = new TextArea("💡 " + faq.getRespuesta());
-        texto.setEditable(false);
-        texto.setWrapText(true);
-        texto.setFont(Font.font("Poetsen One", 14));
-        texto.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
-        VBox.setMargin(texto, new Insets(5, 0, 0, 0)); // margen superior interno
-        //VBox.setVgrow(texto, Priority.ALWAYS);
-
-        // Calcular número de líneas estimadas (puedes refinar esto si quieres precisión real)
-        int numLineas = texto.getText().split("\n").length + 1;
-        double altoPorLinea = 20.0; // Aproximadamente para fuente de 14pt
-        texto.setPrefHeight(numLineas * altoPorLinea);
-
-
-        VBox.setVgrow(texto, Priority.ALWAYS);
-        texto.setMaxHeight(Double.MAX_VALUE);
-
-        // Agregar al VBox
-        vbox.getChildren().addAll(titulo, texto);
-        return vbox;
+    
+    @FXML
+    public void buscarGuia() {
+        String guia = guiaField.getText().trim();
+        if (guia.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campo vacío");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, ingrese una guía para buscar.");
+            alert.showAndWait();
+            return;
+        }
+        Paquete paquete = paqueteriaDao.obtenerPaquetePorGuia(guia);
+        if (paquete == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Paquete no encontrado");
+            alert.setHeaderText(null);
+            alert.setContentText("No se encontró un paquete con la guía proporcionada.");
+            alert.showAndWait();
+            return;
+        }
+        String estadoString = "";
+        switch (paquete.getEstado()) {
+            case Estado.ESPERA:
+                estadoString = "En espera";
+                break;
+            case Estado.ENVIADO:
+                estadoString = "Enviado";
+                break;
+            case Estado.PROCESADO:
+                estadoString = "Procesado";
+                break;
+            case Estado.ENTERRADO:
+                estadoString = "Enterrado";
+                break;
+            default:
+                estadoString = "Desconocido";
+        }
+        String rutaString = "";
+        switch (paquete.getRuta()) {
+            case Ruta.PREPARANDO:
+                rutaString = "Preparando paquete...";
+                break;
+            case Ruta.LISTO:
+                rutaString = "Paquete listo para enviar";
+                break;
+            case Ruta.CAMINO:
+                rutaString = "Paquete en camino";
+                break;
+            case Ruta.LLEGANDO:
+                rutaString = "Paquete llegando al destino";
+                break;
+            case Ruta.ENTREGADO:
+                rutaString = "¡Paquete entregado!";
+                break;
+            default:
+                rutaString = "Desconocido";
+        }
+        guiaLabel.setText(paquete.getGuia());
+        nombreLabel.setText(paquete.getNombre());
+        descripcionLabel.setText(paquete.getDescripcion());
+        origenLabel.setText(paquete.getOrigen());
+        destinoLabel.setText(paquete.getDestino());
+        estadoLabel.setText(estadoString);
+        rutaLabel.setText(rutaString);
+        precioLabel.setText("$" + String.format("%.2f", paquete.getPrecio()) + " MXN");
     }
 
     @FXML
-    public void cargarFAQ() throws SQLException{
-        String sql = "SELECT pregunta, respuesta FROM FAQ ORDER BY id ASC";
-        faqContainer.getChildren().clear();
-
-         try (java.sql.Connection conn = ConexionDB.conectar();
-                PreparedStatement pstmtsql = conn.prepareStatement(sql);
-                 ResultSet rs = pstmtsql.executeQuery()){
-                 
-                 if (!rs.isBeforeFirst()) { // Esto verifica si hay alguna fila en el resultado
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Preguntas Y Respuestas");
-                    alert.setHeaderText("Sin información disponible");
-                    alert.setContentText("Inténtelo más tarde, mientras se trabaja en más FAQ");
-                    alert.showAndWait();
-                    return; // Sale del método
-                 }
-             
-                 while (rs.next()) {
-                    String pregunta = rs.getString("pregunta");
-                    String respuesta = rs.getString("respuesta");
-
-                    Label preguntaLabel = new Label("❓ " + pregunta);
-                    preguntaLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 25px;");
-                    Label respuestaLabel = new Label("💡 " + respuesta);
-                   respuestaLabel.setStyle("-fx-padding: 0 0 10 10; -fx-font-size: 23px;");
-                    Separator separador = new Separator();
-                    faqContainer.getChildren().addAll(preguntaLabel, respuestaLabel, separador);
-                 }
-
-         }catch(SQLException e){
-             e.printStackTrace();
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-              alert.setTitle("Error al Cargar FAQ");
-              alert.setHeaderText("Error al cargar la información desde la base de datos");
-              alert.setContentText("Por favor, inténtelo más tarde");
-              alert.showAndWait();
-        }
+    public void abrirPuntos() throws IOException {
+        App.setContent("perfil");
     }
     
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    try {
-        cargarFAQ();
-    } catch (Exception e) {
-        e.printStackTrace();
+    @FXML
+    public void enviarReporte() {
+        String asunto = asuntoField.getText();
+        String descripcion = descripcionArea.getText();
+        if (asunto.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campo vacío");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, ingrese un asunto.");
+            alert.showAndWait();
+            return;
+        }
+        if (descripcion.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campo vacío");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, ingrese una descripción.");
+            alert.showAndWait();
+            return;
+        }
+        boolean reporteCreado = reporteDao.crearReporte(GestorSesion.getUsuarioActual().getId(), asunto, descripcion);
+        if (reporteCreado) {
+            asuntoField.setText("");
+            descripcionArea.setText("");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Reporte enviado");
+            alert.setHeaderText(null);
+            alert.setContentText("El reporte ha sido enviado con éxito.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error al enviar reporte");
+            alert.setHeaderText(null);
+            alert.setContentText("Error al enviar el reporte.");
+            alert.showAndWait();
+        }
     }
-}
-
     
 }

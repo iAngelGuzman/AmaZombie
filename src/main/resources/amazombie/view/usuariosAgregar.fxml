@@ -119,7 +119,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#regresar" prefWidth="120.0" text="Cancelar">
+                                    <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#regresar" prefWidth="120.0" style="-fx-background-color: rgb(200, 0, 0);" text="Cancelar" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -127,7 +127,7 @@
                                           <Font name="Poetsen One" size="14.0" />
                                        </font>
                                     </Button>
-                                    <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#guardar" prefWidth="120.0" text="Guardar">
+                                    <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#guardar" prefWidth="120.0" style="-fx-background-color: green;" text="Guardar" textFill="WHITE">
                                        <font>
                                           <Font name="Poetsen One" size="14.0" />
                                        </font>

@@ -69,7 +69,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+                              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="600.0">
                                  <children>
                                     <Button fx:id="recompensa" alignment="TOP_CENTER" layoutX="290.0" layoutY="263.0" mnemonicParsing="false" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="recompensa" textFill="#31b12a" textOverrun="CLIP" visible="false">
                                        <font>
@@ -99,7 +99,7 @@
                                           <Image url="@../images/Status%20Titulo2.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="Actualizar" layoutX="13.0" layoutY="348.0" mnemonicParsing="false" onAction="#retroceder" prefHeight="41.0" prefWidth="145.0" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="Retroceder" textFill="#2a9a19">
+                                    <Button fx:id="retrocederBtn" layoutX="13.0" layoutY="392.0" mnemonicParsing="false" onAction="#retroceder" prefHeight="41.0" prefWidth="145.0" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="Retroceder" textFill="#2a9a19">
                                        <font>
                                           <Font name="Poetsen One" size="18.0" />
                                        </font>
@@ -194,9 +194,9 @@
                                                 <Font name="Poetsen One" size="1.0" />
                                              </font>
                                              <graphic>
-                                                <ImageView cache="true" fitHeight="43.0" fitWidth="45.0">
+                                                <ImageView fx:id="zombieImage" cache="true" fitHeight="43.0" fitWidth="45.0">
                                                    <image>
-                                                      <Image url="@../../../../../../../../images/Paquete.png" />
+                                                      <Image url="@../images/Paquete.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -223,9 +223,27 @@
                                           <Image url="@../images/Imagen%20flecha.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="Actualizar1" layoutX="449.0" layoutY="348.0" mnemonicParsing="false" onAction="#avanzar" prefHeight="41.0" prefWidth="137.0" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="Avanzar" textFill="#2a9a19">
+                                    <Button fx:id="avanzarBtn" layoutX="449.0" layoutY="392.0" mnemonicParsing="false" onAction="#avanzar" prefHeight="41.0" prefWidth="137.0" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="Avanzar" textFill="#2a9a19">
                                        <font>
                                           <Font name="Poetsen One" size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Label layoutX="238.0" layoutY="326.0" text="Número de guía:" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Poetsen One" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="guiaLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="352.0" prefHeight="20.0" prefWidth="574.0" text="guia" textAlignment="CENTER" textFill="GREEN">
+                                       <font>
+                                          <Font name="Poetsen One" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="copiarBtn" layoutX="242.0" layoutY="383.0" mnemonicParsing="false" onAction="#copiarGuia" prefHeight="31.0" prefWidth="116.0" style="-fx-border-color: #31B12A; -fx-background-color: #C9EDCD;" text="Copiar guía" textFill="#2a9a19">
+                                       <font>
+                                          <Font name="Poetsen One" size="16.0" />
                                        </font>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />

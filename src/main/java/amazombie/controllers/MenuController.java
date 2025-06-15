@@ -8,8 +8,6 @@ import amazombie.App;
 import amazombie.utils.GestorSesion;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,24 +16,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class MenuController implements Initializable {
 
     /**
@@ -48,6 +37,10 @@ public class MenuController implements Initializable {
     @FXML private StackPane inventarioSP;
     @FXML private StackPane sucursalesSP;
     @FXML private StackPane faqSP;
+    @FXML private StackPane atencionSP;
+    @FXML private StackPane reportesSP;
+    @FXML private StackPane solicitudesSP;
+    @FXML private StackPane solicitarSP;
     @FXML private StackPane perfilSP;
     @FXML private StackPane salirSP;
 
@@ -57,8 +50,14 @@ public class MenuController implements Initializable {
     @FXML private ImageView inventarioIMG;
     @FXML private ImageView sucursalesIMG;
     @FXML private ImageView faqIMG;
+    @FXML private ImageView atencionIMG;
+    @FXML private ImageView reportesIMG;
+    @FXML private ImageView solicitudesIMG;
+    @FXML private ImageView solicitarIMG;
     @FXML private ImageView perfilIMG;
     @FXML private ImageView salirIMG;
+
+    @FXML private Label adminLabel;
     
     ColorAdjust itemActivo;
     ColorAdjust itemInactivo;
@@ -120,6 +119,10 @@ public class MenuController implements Initializable {
         botonesMenu.put("inventario", inventarioIMG);
         botonesMenu.put("sucursales", sucursalesIMG);
         botonesMenu.put("faq", faqIMG);
+        botonesMenu.put("atencion", atencionIMG);
+        botonesMenu.put("reportes", reportesIMG);
+        botonesMenu.put("solicitudes", solicitudesIMG);
+        botonesMenu.put("solicitar", solicitarIMG);
         botonesMenu.put("perfil", perfilIMG);
         botonesMenu.put("salir", salirIMG);
         
@@ -134,9 +137,15 @@ public class MenuController implements Initializable {
         if (!GestorSesion.getUsuarioActual().esAdmin()) {
             usuariosSP.setVisible(false);
             usuariosSP.setManaged(false);
-
+            
             empleadosSP.setVisible(false);
             empleadosSP.setManaged(false);
+
+            adminLabel.setVisible(false);
+            adminLabel.setManaged(false);
+
+            solicitudesSP.setVisible(false);
+            solicitudesSP.setManaged(false);
         }
     }
     
@@ -153,6 +162,14 @@ public class MenuController implements Initializable {
         sucursalesSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != sucursalesIMG) { sucursalesIMG.setEffect(itemInactivo); } });
         faqSP.setOnMouseEntered((MouseEvent e) -> { faqIMG.setEffect(itemActivo); });
         faqSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != faqIMG) { faqIMG.setEffect(itemInactivo); } });
+        atencionSP.setOnMouseEntered((MouseEvent e) -> { atencionIMG.setEffect(itemActivo); });
+        atencionSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != atencionIMG) { atencionIMG.setEffect(itemInactivo); } });
+        reportesSP.setOnMouseEntered((MouseEvent e) -> { reportesIMG.setEffect(itemActivo); });
+        reportesSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != reportesIMG) { reportesIMG.setEffect(itemInactivo); } });
+        solicitudesSP.setOnMouseEntered((MouseEvent e) -> { solicitudesIMG.setEffect(itemActivo); });
+        solicitudesSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != solicitudesIMG) { solicitudesIMG.setEffect(itemInactivo); } });
+        solicitarSP.setOnMouseEntered((MouseEvent e) -> { solicitarIMG.setEffect(itemActivo); });
+        solicitarSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != solicitarIMG) { solicitarIMG.setEffect(itemInactivo); } });
         perfilSP.setOnMouseEntered((MouseEvent e) -> { perfilIMG.setEffect(perfilActivo); });
         perfilSP.setOnMouseExited((MouseEvent e) -> { if (botonSeleccionado != perfilIMG) { perfilIMG.setEffect(perfilInactivo); } });
         salirSP.setOnMouseEntered((MouseEvent e) -> { salirIMG.setEffect(salirActivo); });
@@ -165,8 +182,15 @@ public class MenuController implements Initializable {
     @FXML public void abrirInventario() throws IOException { cargarContenido("inventario"); }
     @FXML public void abrirSucursales() throws IOException { cargarContenido("sucursales"); }
     @FXML public void abrirFaq() throws IOException { cargarContenido("faq"); }
+    @FXML public void abrirAtencion() throws IOException { cargarContenido("atencion"); }
+    @FXML public void abrirReportes() throws IOException { cargarContenido("reportes"); }
+    @FXML public void abrirSolicitudes() throws IOException { cargarContenido("solicitudes"); }
+    @FXML public void abrirSolicitar() throws IOException { cargarContenido("solicitar"); }
     @FXML public void abrirPerfil() throws IOException { cargarContenido("perfil"); }
-    @FXML public void cerrarSesion() throws IOException { App.setRoot("sesion"); }
+    @FXML public void cerrarSesion() throws IOException { 
+        GestorSesion.cerrarSesion();
+        App.setRoot("sesion");
+    }
 
     @FXML
     public void cargarContenido(String ventana) throws IOException {
@@ -184,7 +208,6 @@ public class MenuController implements Initializable {
                 sp.setEffect(itemInactivo);
             }
         }
-        
 
         // Aplicar al StackPane
         botonSeleccionado = botonesMenu.get(ventana);

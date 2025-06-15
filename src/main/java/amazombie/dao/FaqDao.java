@@ -16,10 +16,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author JoseANG3L
- */
+
 public class FaqDao {
 
     public List<Faq> obtenerFaqs() {

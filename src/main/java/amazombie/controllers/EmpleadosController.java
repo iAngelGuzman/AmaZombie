@@ -31,11 +31,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class EmpleadosController implements Initializable {
 
     /**
@@ -59,6 +55,14 @@ public class EmpleadosController implements Initializable {
         empleadosContainer.getChildren().clear();
         List<Usuario> empleados = usuarioDao.obtenerEmpleados();
 
+        if (empleados.isEmpty()) {
+            Label noEmpleadosLabel = new Label("No hay empleados registrados");
+            noEmpleadosLabel.setFont(Font.font("Poetsen One", 14));
+            noEmpleadosLabel.setAlignment(Pos.CENTER);
+            noEmpleadosLabel.setPadding(new Insets(20));
+            empleadosContainer.getChildren().add(noEmpleadosLabel);
+            return;
+        }
         empleadosContainer.getChildren().add(crearHeader(empleados.get(0)));
 
         for (Usuario empleado : empleados) {

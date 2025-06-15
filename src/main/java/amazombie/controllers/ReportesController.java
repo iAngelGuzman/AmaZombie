@@ -6,22 +6,25 @@ package amazombie.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import amazombie.App;
+import amazombie.dao.ReporteDao;
 import amazombie.dao.UsuarioDao;
-import amazombie.models.Usuario;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import amazombie.models.Reporte;
+import amazombie.utils.GestorReporte;
+import amazombie.utils.GestorSesion;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -30,20 +33,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
-public class EmpleadosController implements Initializable {
+
+public class ReportesController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
 
-    @FXML private VBox empleadosContainer;
+    @FXML private VBox reportesContainer;
     private final UsuarioDao usuarioDao = UsuarioDao.getInstancia();
+    private final ReporteDao reporteDao = ReporteDao.getInstancia();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,62 +52,110 @@ public class EmpleadosController implements Initializable {
     }
 
     @FXML
-    public void abrirAgregar() throws IOException {
-        App.setContent("empleadosAgregar");
-    }
-
     public void actualizarDatos() {
-        empleadosContainer.getChildren().clear();
-        List<Usuario> empleados = usuarioDao.obtenerEmpleados();
-
-        empleadosContainer.getChildren().add(crearHeader(empleados.get(0)));
-
-        for (Usuario empleado : empleados) {
-            empleadosContainer.getChildren().add(crearTarjeta(empleado));
+        reportesContainer.getChildren().clear();
+        List<Reporte> reportes;
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            reportes = reporteDao.obtenerReportes();
+        } else {
+            reportes = reporteDao.obtenerReportesPorUsuario(GestorSesion.getUsuarioActual().getId());
         }
 
+        if (reportes.isEmpty()) {
+            Label noReportesLabel = new Label("No hay reportes disponibles.");
+            noReportesLabel.setFont(Font.font("Poetsen One", 14));
+            noReportesLabel.setAlignment(Pos.CENTER);
+            noReportesLabel.setPadding(new Insets(20));
+            reportesContainer.getChildren().add(noReportesLabel);
+            return;
+        }
+        reportesContainer.getChildren().add(crearHeader(reportes.get(0)));
+        for (Reporte reporte : reportes) {
+            reportesContainer.getChildren().add(crearTarjeta(reporte));
+        }
     }
 
-    public GridPane crearHeader(Usuario empleado) {
+    public GridPane crearHeader(Reporte reporte) {
         // Crear el GridPane
         GridPane gridPane = new GridPane();
         gridPane.setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;");
         // margenes
         VBox.setMargin(gridPane, new Insets(0, 0, 5, 0));
         
+        // usuario
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setHgrow(Priority.NEVER);
 
+        // asunto
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setHgrow(Priority.NEVER);
-        
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setHgrow(Priority.ALWAYS);
 
-        gridPane.getColumnConstraints().addAll(col1, col2, col3);
+        // estado
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setHgrow(Priority.NEVER);
+        
+        // respuesta
+        ColumnConstraints col4 = new ColumnConstraints();
+        col4.setHgrow(Priority.ALWAYS);
+
+        // fecha
+        ColumnConstraints col5 = new ColumnConstraints();
+        col5.setHgrow(Priority.NEVER);
+
+        // acciones
+        ColumnConstraints col6 = new ColumnConstraints();
+        col6.setHgrow(Priority.NEVER);
+
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            gridPane.getColumnConstraints().addAll(col1, col2, col3, col4, col5, col6);
+        } else {
+            gridPane.getColumnConstraints().addAll(col2, col3, col4, col5, col6);
+        }
 
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.SOMETIMES);
         gridPane.getRowConstraints().add(row);
 
-        Label id = new Label(String.valueOf("Id"));
-        id.setFont(Font.font("Poetsen One", 14));
+        Label usuarioNombre = new Label("Usuario");
+        usuarioNombre.setFont(Font.font("Poetsen One", 14));
+        VBox vboxUsuario = new VBox(usuarioNombre);
+        vboxUsuario.setAlignment(Pos.CENTER);
+        vboxUsuario.setPadding(new Insets(10, 20, 10, 20));
+        vboxUsuario.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxUsuario.setMinWidth(160);
 
-        VBox vboxId = new VBox(id);
-        vboxId.setAlignment(Pos.CENTER);
-        vboxId.setPadding(new Insets(10, 20, 10, 20));
-        vboxId.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
-        vboxId.setMinWidth(80);
+        Label asunto = new Label("Asunto");
+        asunto.setFont(Font.font("Poetsen One", 14));
+        VBox vboxAsunto = new VBox(asunto);
+        vboxAsunto.setAlignment(Pos.CENTER);
+        vboxAsunto.setPadding(new Insets(10, 20, 10, 20));
+        vboxAsunto.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxAsunto.setMinWidth(200);
 
-        // VBox con el nombre
-        Label labelNombre = new Label("Usuario");
-        labelNombre.setFont(Font.font("Poetsen One", 14));
+        Label estado = new Label("Estado");
+        estado.setFont(Font.font("Poetsen One", 14));
+        VBox vboxEstado = new VBox(estado);
+        vboxEstado.setAlignment(Pos.CENTER);
+        vboxEstado.setPadding(new Insets(10, 20, 10, 20));
+        vboxEstado.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxEstado.setMinWidth(200);
+        vboxEstado.setMaxWidth(200);
 
-        VBox vboxNombre = new VBox(labelNombre);
-        vboxNombre.setAlignment(Pos.CENTER);
-        vboxNombre.setPadding(new Insets(10, 20, 10, 20));
-        vboxNombre.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
-        vboxNombre.setMinWidth(200);
+        Label respuesta = new Label("Respuesta");
+        respuesta.setFont(Font.font("Poetsen One", 14));
+        VBox vboxRespuesta = new VBox(respuesta);
+        vboxRespuesta.setAlignment(Pos.CENTER_LEFT);
+        vboxRespuesta.setPadding(new Insets(10, 20, 10, 20));
+        vboxRespuesta.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxRespuesta.setMinWidth(200);
+
+        Label fecha = new Label("Fecha");
+        fecha.setFont(Font.font("Poetsen One", 14));
+        VBox vboxFecha = new VBox(fecha);
+        vboxFecha.setAlignment(Pos.CENTER);
+        vboxFecha.setPadding(new Insets(10, 20, 10, 20));
+        vboxFecha.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxFecha.setMinWidth(140);
 
         Label labelAcciones = new Label("Acciones");
         labelAcciones.setFont(Font.font("Poetsen One", 14));
@@ -114,126 +163,157 @@ public class EmpleadosController implements Initializable {
         VBox vboxAcciones = new VBox(labelAcciones);
         vboxAcciones.setAlignment(Pos.CENTER);
         vboxAcciones.setPadding(new Insets(10, 20, 10, 20));
+        vboxAcciones.setMinWidth(140);
 
         // Agregar al GridPane
-        gridPane.add(vboxId, 0, 0);
-        gridPane.add(vboxNombre, 1, 0);
-        gridPane.add(vboxAcciones, 2, 0);
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            gridPane.add(vboxUsuario, 0, 0);
+            gridPane.add(vboxAsunto, 1, 0);
+            gridPane.add(vboxEstado, 2, 0);
+            gridPane.add(vboxRespuesta, 3, 0);
+            gridPane.add(vboxFecha, 4, 0);
+            gridPane.add(vboxAcciones, 5, 0);
+        } else {
+            gridPane.add(vboxAsunto, 0, 0);
+            gridPane.add(vboxEstado, 1, 0);
+            gridPane.add(vboxRespuesta, 2, 0);
+            gridPane.add(vboxFecha, 3, 0);
+            gridPane.add(vboxAcciones, 4, 0);
+        }
 
         return gridPane;
     }
 
-    public GridPane crearTarjeta(Usuario empleado) {
+    public GridPane crearTarjeta(Reporte reporte) {
         // Crear el GridPane
         GridPane gridPane = new GridPane();
         gridPane.setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;");
         // margenes
         VBox.setMargin(gridPane, new Insets(0, 0, 5, 0));
         
+        // usuario
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setHgrow(Priority.NEVER);
 
+        // asunto
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setHgrow(Priority.NEVER);
-        
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setHgrow(Priority.ALWAYS);
 
-        gridPane.getColumnConstraints().addAll(col1, col2, col3);
+        // estado
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setHgrow(Priority.NEVER);
+        
+        // respuesta
+        ColumnConstraints col4 = new ColumnConstraints();
+        col4.setHgrow(Priority.ALWAYS);
+
+        // fecha
+        ColumnConstraints col5 = new ColumnConstraints();
+        col5.setHgrow(Priority.NEVER);
+
+        // acciones
+        ColumnConstraints col6 = new ColumnConstraints();
+        col6.setHgrow(Priority.NEVER);
+
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            gridPane.getColumnConstraints().addAll(col1, col2, col3, col4, col5, col6);
+        } else {
+            gridPane.getColumnConstraints().addAll(col2, col3, col4, col5, col6);
+        }
 
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.SOMETIMES);
         gridPane.getRowConstraints().add(row);
 
-        Label id = new Label(String.valueOf(empleado.getId()));
-        id.setFont(Font.font("Poetsen One", 14));
+        Label usuarioNombre = new Label(usuarioDao.obtenerUsuario(reporte.getUsuarioId()).getNombre());
+        usuarioNombre.setFont(Font.font("Poetsen One", 14));
+        VBox vboxUsuario = new VBox(usuarioNombre);
+        vboxUsuario.setAlignment(Pos.CENTER);
+        vboxUsuario.setPadding(new Insets(10, 20, 10, 20));
+        vboxUsuario.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxUsuario.setMinWidth(160);
 
-        VBox vboxId = new VBox(id);
-        vboxId.setAlignment(Pos.CENTER);
-        vboxId.setPadding(new Insets(10, 20, 10, 20));
-        vboxId.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
-        vboxId.setMinWidth(80);
+        Label asunto = new Label(reporte.getAsunto());
+        asunto.setFont(Font.font("Poetsen One", 14));
+        VBox vboxAsunto = new VBox(asunto);
+        vboxAsunto.setAlignment(Pos.CENTER);
+        vboxAsunto.setPadding(new Insets(10, 20, 10, 20));
+        vboxAsunto.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxAsunto.setMinWidth(200);
 
-        // VBox con el nombre
-        Label labelNombre = new Label(empleado.getNombre());
-        labelNombre.setFont(Font.font("Poetsen One", 14));
+        Label estado = new Label(reporte.getEstado());
+        estado.setFont(Font.font("Poetsen One", 14));
+        VBox vboxEstado = new VBox(estado);
+        vboxEstado.setAlignment(Pos.CENTER);
+        vboxEstado.setPadding(new Insets(10, 20, 10, 20));
+        vboxEstado.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxEstado.setMinWidth(200);
+        vboxEstado.setMaxWidth(200);
 
-        VBox vboxNombre = new VBox(labelNombre);
-        vboxNombre.setAlignment(Pos.CENTER);
-        vboxNombre.setPadding(new Insets(10, 20, 10, 20));
-        vboxNombre.setMinWidth(200);
+        Label respuesta = new Label(reporte.getRespuesta());
+        respuesta.setFont(Font.font("Poetsen One", 14));
+        VBox vboxRespuesta = new VBox(respuesta);
+        vboxRespuesta.setAlignment(Pos.CENTER_LEFT);
+        vboxRespuesta.setPadding(new Insets(10, 20, 10, 20));
+        vboxRespuesta.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxRespuesta.setMinWidth(200);
+
+        String fechaFormateada = reporte.getFecha().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        Label fecha = new Label(fechaFormateada);
+        fecha.setFont(Font.font("Poetsen One", 14));
+        VBox vboxFecha = new VBox(fecha);
+        vboxFecha.setAlignment(Pos.CENTER);
+        vboxFecha.setPadding(new Insets(10, 20, 10, 20));
+        vboxFecha.setStyle("-fx-border-color: grey; -fx-border-width: 0 1 0 0;");
+        vboxFecha.setMinWidth(140);
 
         // HBox con los botones
-        Button btnEditar = new Button("Editar");
-        btnEditar.setFont(Font.font("Poetsen One", 14));
-        HBox.setMargin(btnEditar, new Insets(0, 5, 0, 0));
+        Button btnDetalles = new Button("Detalles");
+        btnDetalles.setFont(Font.font("Poetsen One", 14));
 
-        // Editar
-        btnEditar.setOnAction(e -> {
-            usuarioDao.setIdUsuarioAEditar(empleado.getId());
+        // Detalles
+        btnDetalles.setOnAction(e -> {
+            GestorReporte.setReporteActual(reporte);
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(event -> {
+                actualizarDatos();
+            });
             try {
-                App.setContent("empleadosEditar");
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                stage.setScene(new Scene(App.loadFXML("reporte")));
+                stage.setTitle("Reporte");
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(ReportesController.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error al abrir el reporte");
+                alert.showAndWait();
+                ex.printStackTrace();
             }
         });
 
-        Button btnEliminar = new Button("Eliminar");
-        btnEliminar.setFont(Font.font("Poetsen One", 14));
-
-        // Eliminar
-        btnEliminar.setOnAction(e -> {
-            Usuario usr = usuarioDao.obtenerUsuario(empleado.getId());
-
-            if (usr != null) {
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                alerta.setTitle("Eliminar");
-                alerta.setHeaderText("¿Está seguro de que desea eliminar a " + usr.getNombre() + "?");
-                alerta.setContentText("Esta acción no se puede deshacer");
-
-                Optional<ButtonType> resultado = alerta.showAndWait();
-
-                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                    boolean eliminado = usuarioDao.eliminarUsuario(usr.getId());
-
-                    if (eliminado) {
-                        mostrarAlerta(
-                            "Éxito",
-                            "Empleado eliminado correctamente",
-                            null,
-                            Alert.AlertType.INFORMATION
-                        );
-                        actualizarDatos();
-                    } else {
-                        mostrarAlerta(
-                            "Error",
-                            "No se pudo eliminar el empleado",
-                            "Verifica la conexión o intenta nuevamente",
-                            Alert.AlertType.ERROR
-                        );
-                    }
-                }
-
-            } else {
-                mostrarAlerta(
-                    "Eliminar",
-                    "No se pudo encontrar el empleado",
-                    "Por favor, inténtelo de nuevo",
-                    Alert.AlertType.WARNING
-                );
-            }
-        });
-
-
-        HBox hboxBotones = new HBox(10, btnEditar, btnEliminar);
-        hboxBotones.setAlignment(Pos.CENTER_RIGHT);
+        HBox hboxBotones = new HBox(8, btnDetalles);
+        hboxBotones.setAlignment(Pos.CENTER);
         hboxBotones.setPadding(new Insets(10));
-        hboxBotones.setStyle("-fx-border-color: grey; -fx-border-width: 0 0 0 1;");
+        hboxBotones.setMinWidth(140);
 
         // Agregar al GridPane
-        gridPane.add(vboxId, 0, 0);
-        gridPane.add(vboxNombre, 1, 0);
-        gridPane.add(hboxBotones, 2, 0);
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            gridPane.add(vboxUsuario, 0, 0);
+            gridPane.add(vboxAsunto, 1, 0);
+            gridPane.add(vboxEstado, 2, 0);
+            gridPane.add(vboxRespuesta, 3, 0);
+            gridPane.add(vboxFecha, 4, 0);
+            gridPane.add(hboxBotones, 5, 0);
+        } else {
+            gridPane.add(vboxAsunto, 0, 0);
+            gridPane.add(vboxEstado, 1, 0);
+            gridPane.add(vboxRespuesta, 2, 0);
+            gridPane.add(vboxFecha, 3, 0);
+            gridPane.add(hboxBotones, 4, 0);
+        }
 
         return gridPane;
     }

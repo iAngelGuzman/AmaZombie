@@ -5,6 +5,8 @@ module amazombie {
     requires java.sql;
     requires java.base;
     requires java.desktop;
+    requires javafx.graphics;
+    requires com.github.librepdf.openpdf;
 
     opens amazombie.controllers to javafx.fxml;
     exports amazombie;

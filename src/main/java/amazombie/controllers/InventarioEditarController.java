@@ -6,63 +6,93 @@ package amazombie.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
+import java.util.function.UnaryOperator;
 
 import amazombie.App;
+import amazombie.dao.PaqueteriaDao;
 import amazombie.dao.UsuarioDao;
+import amazombie.models.Paquete;
 import amazombie.models.Usuario;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import amazombie.utils.Estado;
+import amazombie.utils.GestorPaquete;
+import amazombie.utils.GestorSesion;
+import amazombie.utils.Ruta;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.util.converter.DoubleStringConverter;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
-public class EmpleadosAgregarController implements Initializable {
+
+public class InventarioEditarController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
 
     @FXML private VBox usuariosContainer;
+    private final PaqueteriaDao paqueteriaDao = PaqueteriaDao.getInstancia();
     private final UsuarioDao usuarioDao = UsuarioDao.getInstancia();
-
+    
     @FXML private TextField nombreField;
-    @FXML private TextField contraField;
-    @FXML private TextField repContraField;
+    @FXML private TextField descripcionField;
+    @FXML private TextField origenField;
+    @FXML private TextField destinoField;
+    @FXML private TextField precioField;
+
+    Paquete paquete;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //nombreField.setText(usuarioDao.obtenerUsuario(usuarioDao.getIdUsuarioAEditar()).getNombre());
+        paquete = GestorPaquete.getPaqueteActual();
+        if (paquete != null) {
+            nombreField.setText(paquete.getNombre());
+            descripcionField.setText(paquete.getDescripcion());
+            origenField.setText(paquete.getOrigen());
+            destinoField.setText(paquete.getDestino());
+            precioField.setText(String.format("%.2f", paquete.getPrecio()));
+        } else {
+            mostrarAlerta(
+                "Error",
+                "No se ha seleccionado un paquete",
+                "Por favor, selecciona un paquete para editar.",
+                Alert.AlertType.ERROR
+            );
+            return;
+        }
+        actualizarCampos();
     }
 
+    private void actualizarCampos() {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<Double> formatter = new TextFormatter<>(
+            new DoubleStringConverter(), 0.0, filter);
+        precioField.setTextFormatter(formatter);
+    }
+
+    @FXML
     public void regresar() throws IOException {
-        App.setContent("usuarios");
+        App.setContent("inventario");
     }
 
     @FXML
     public void guardar() throws IOException {
         String nombre = nombreField.getText();
-        String contra = contraField.getText();
-        String repContra = repContraField.getText();
+        String descripcion = descripcionField.getText();
+        String origen = origenField.getText();
+        String destino = destinoField.getText();
+        String precio = precioField.getText();
         if (nombre.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
@@ -72,7 +102,7 @@ public class EmpleadosAgregarController implements Initializable {
             );
             return;
         }
-        if (contra.isEmpty() || repContra.isEmpty()) {
+        if (descripcion.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
                 "La contraseña no puede quedar vacia",
@@ -81,43 +111,56 @@ public class EmpleadosAgregarController implements Initializable {
             );
             return;
         }
-        if (!contra.equals(repContra)) {
+        if (origen.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
-                "La contraseña no es igual",
-                "Vuelve a ingresar la contraseña",
+                "El origen no puede quedar vacio",
+                "Agrega un origen",
                 Alert.AlertType.WARNING
             );
             return;
         }
-        if (usuarioDao.existeUsuario(nombre)) {
+        if (destino.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
-                "El nombre ya existe",
-                "Elija otro nombre",
+                "El destino no puede quedar vacio",
+                "Agrega un destino",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
+        if (precio.isEmpty()) {
+            mostrarAlerta(
+                "Formulario",
+                "El precio no puede quedar vacio",
+                "Agrega un precio",
                 Alert.AlertType.WARNING
             );
             return;
         }
 
-        boolean agregado = usuarioDao.agregarUsuario(nombre, contra, "admin");
-        if (agregado) {
+        paquete.setNombre(nombre);
+        paquete.setDescripcion(descripcion);
+        paquete.setOrigen(origen);
+        paquete.setDestino(destino);
+        paquete.setPrecio(Double.parseDouble(precio));
+        
+        boolean actualizado = paqueteriaDao.actualizarPaquete(paquete);
+
+        if (actualizado) {
             mostrarAlerta(
                 "Formulario",
-                "Se ha agregado correctamente",
-                "El empleado ha sido agregado correctamente",
+                "Paquete actualizado correctamente",
+                "El paquete ha sido actualizado exitosamente.",
                 Alert.AlertType.INFORMATION
             );
-            nombreField.setText("");
-            contraField.setText("");
-            repContraField.setText("");
-            App.setContent("empleados");
+            App.setContent("inventario");
         } else {
             mostrarAlerta(
-                "Formulario",
-                "No se guardo el empleado.",
-                "Verifique la base de datos.",
-                Alert.AlertType.INFORMATION
+                "Formulario", 
+                "Error al actualizar el paquete",
+                "Intenta nuevamente",
+                Alert.AlertType.ERROR
             );
         }
     }

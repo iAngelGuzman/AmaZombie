@@ -3,7 +3,6 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -67,7 +66,25 @@
                                           </DropShadow>
                                        </effect>
                                        <VBox.margin>
-                                          <Insets bottom="25.0" left="5.0" />
+                                          <Insets bottom="20.0" left="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="adminLabel" style="-fx-background-color: red;" text="Administrador" textFill="WHITE">
+                                       <font>
+                                          <Font name="Poetsen One" size="14.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow height="6.0" radius="2.5" spread="1.0" width="6.0">
+                                             <color>
+                                                <Color red="0.3052631616592407" green="3.3891019064396035E-17" blue="3.3891019064396035E-17" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="5.0" left="14.0" right="14.0" top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </Label>
                                     <StackPane fx:id="inicioSP" onMouseClicked="#abrirInicio">
@@ -124,7 +141,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                        <VBox.margin>
-                                          <Insets bottom="12.0" />
+                                          <Insets bottom="12.0" top="5.0" />
                                        </VBox.margin>
                                        <styleClass>
                                           <String fx:value="itemMenu" />
@@ -372,9 +389,6 @@
                                           <HBox alignment="CENTER_LEFT">
                                              <children>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../../../../../../AmaZombieCopia/src/main/resources/amazombie/images/home.png" />
-                                                   </image>
                                                    <effect>
                                                       <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
                                                    </effect>
@@ -413,8 +427,221 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                        <VBox.margin>
-                                          <Insets />
+                                          <Insets bottom="12.0" />
                                        </VBox.margin>
+                                    </StackPane>
+                                    <StackPane fx:id="atencionSP" onMouseClicked="#abrirAtencion" styleClass="itemMenu">
+                                       <children>
+                                          <ImageView fx:id="atencionIMG" fitHeight="45.0" fitWidth="250.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../images/item.png" />
+                                             </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-0.45" contrast="0.4" hue="0.5" saturation="-0.5" />
+                                             </effect>
+                                          </ImageView>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                   <HBox.margin>
+                                                      <Insets bottom="2.0" />
+                                                   </HBox.margin>
+                                                </ImageView>
+                                                <Label styleClass="labelMenu" text="Atención al cliente" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="Poetsen One" size="14.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin>
+                                          </HBox>
+                                       </children>
+                                       <effect>
+                                          <DropShadow height="5.0" radius="2.0" spread="1.0" width="5.0">
+                                             <color>
+                                                <Color red="0.05098039284348488" green="0.7647058963775635" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="12.0" />
+                                       </VBox.margin>
+                                    </StackPane>
+                                    <StackPane fx:id="reportesSP" onMouseClicked="#abrirReportes" styleClass="itemMenu">
+                                       <children>
+                                          <ImageView fx:id="reportesIMG" fitHeight="45.0" fitWidth="250.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../images/item.png" />
+                                             </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-0.45" contrast="0.4" hue="0.5" saturation="-0.5" />
+                                             </effect>
+                                          </ImageView>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                   <HBox.margin>
+                                                      <Insets bottom="2.0" />
+                                                   </HBox.margin>
+                                                </ImageView>
+                                                <Label styleClass="labelMenu" text="Reportes" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="Poetsen One" size="14.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin>
+                                          </HBox>
+                                       </children>
+                                       <effect>
+                                          <DropShadow height="5.0" radius="2.0" spread="1.0" width="5.0">
+                                             <color>
+                                                <Color red="0.05098039284348488" green="0.7647058963775635" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="12.0" />
+                                       </VBox.margin>
+                                    </StackPane>
+                                    <StackPane fx:id="solicitudesSP" onMouseClicked="#abrirSolicitudes" styleClass="itemMenu">
+                                       <children>
+                                          <ImageView fx:id="solicitudesIMG" fitHeight="45.0" fitWidth="250.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../images/item.png" />
+                                             </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-0.45" contrast="0.4" hue="0.5" saturation="-0.5" />
+                                             </effect>
+                                          </ImageView>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                   <HBox.margin>
+                                                      <Insets bottom="2.0" />
+                                                   </HBox.margin>
+                                                </ImageView>
+                                                <Label styleClass="labelMenu" text="Solicitudes de empleo" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="Poetsen One" size="14.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin>
+                                          </HBox>
+                                       </children>
+                                       <effect>
+                                          <DropShadow height="5.0" radius="2.0" spread="1.0" width="5.0">
+                                             <color>
+                                                <Color red="0.05098039284348488" green="0.7647058963775635" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="12.0" />
+                                       </VBox.margin>
+                                    </StackPane>
+                                    <StackPane fx:id="solicitarSP" onMouseClicked="#abrirSolicitar" styleClass="itemMenu">
+                                       <children>
+                                          <ImageView fx:id="solicitarIMG" fitHeight="45.0" fitWidth="250.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../images/item.png" />
+                                             </image>
+                                             <effect>
+                                                <ColorAdjust brightness="-0.45" contrast="0.4" hue="0.5" saturation="-0.5" />
+                                             </effect>
+                                          </ImageView>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                   <HBox.margin>
+                                                      <Insets bottom="2.0" />
+                                                   </HBox.margin>
+                                                </ImageView>
+                                                <Label styleClass="labelMenu" text="Solicitar empleo" textFill="WHITE">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="Poetsen One" size="14.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow height="5.0" offsetX="1.0" offsetY="1.0" radius="2.0" spread="0.4" width="5.0" />
+                                                   </effect>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin>
+                                          </HBox>
+                                       </children>
+                                       <effect>
+                                          <DropShadow height="5.0" radius="2.0" spread="1.0" width="5.0">
+                                             <color>
+                                                <Color red="0.05098039284348488" green="0.7647058963775635" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </StackPane>
                                     <Separator prefWidth="200.0">
                                        <VBox.margin>
@@ -544,12 +771,7 @@
                     <content>
                       <AnchorPane fx:id="anchorContent" minHeight="0.0" minWidth="0.0">
                            <children>
-                              <VBox fx:id="boxContent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="724.0" prefWidth="598.0" text="Button" />
-                                    <Button mnemonicParsing="false" prefHeight="423.0" prefWidth="370.0" text="Button" />
-                                 </children>
-                              </VBox>
+                              <VBox fx:id="boxContent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                     </content>

@@ -6,63 +6,97 @@ package amazombie.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
+import java.util.function.UnaryOperator;
 
 import amazombie.App;
+import amazombie.dao.PaqueteriaDao;
 import amazombie.dao.UsuarioDao;
 import amazombie.models.Usuario;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import amazombie.utils.Estado;
+import amazombie.utils.Ruta;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.util.converter.DoubleStringConverter;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
-public class EmpleadosAgregarController implements Initializable {
+
+public class InventarioAgregarController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
 
     @FXML private VBox usuariosContainer;
+    private final PaqueteriaDao paqueteriaDao = PaqueteriaDao.getInstancia();
     private final UsuarioDao usuarioDao = UsuarioDao.getInstancia();
 
+    @FXML private ChoiceBox<String> usuarioCB;
     @FXML private TextField nombreField;
-    @FXML private TextField contraField;
-    @FXML private TextField repContraField;
+    @FXML private TextField descripcionField;
+    @FXML private TextField origenField;
+    @FXML private TextField destinoField;
+    @FXML private TextField precioField;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //nombreField.setText(usuarioDao.obtenerUsuario(usuarioDao.getIdUsuarioAEditar()).getNombre());
+        actualizarCampos();
     }
 
+    private void actualizarCampos() {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<Double> formatter = new TextFormatter<>(
+            new DoubleStringConverter(), 0.0, filter);
+        precioField.setTextFormatter(formatter);
+
+        usuarioCB.getItems().clear();
+        usuarioCB.getSelectionModel().clearSelection();
+        usuarioCB.getItems().addAll(
+            usuarioDao.obtenerUsuarios()
+                .stream()
+                .map(Usuario::getNombre)
+                .toList()
+        );
+    }
+
+    @FXML
     public void regresar() throws IOException {
-        App.setContent("usuarios");
+        App.setContent("inventario");
     }
 
     @FXML
     public void guardar() throws IOException {
+        String guia = "G" + UUID.randomUUID().toString();
+        if (guia.length() > 16) {
+            guia = guia.substring(0, 16);
+        }
+
+        String usuario = usuarioCB.getSelectionModel().getSelectedItem();
         String nombre = nombreField.getText();
-        String contra = contraField.getText();
-        String repContra = repContraField.getText();
+        String descripcion = descripcionField.getText();
+        String origen = origenField.getText();
+        String destino = destinoField.getText();
+        String precio = precioField.getText();
+        if (usuario == null) {
+            mostrarAlerta(
+                "Formulario",
+                "El usuario no puede quedar vacio",
+                "Selecciona un usuario",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
         if (nombre.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
@@ -72,7 +106,7 @@ public class EmpleadosAgregarController implements Initializable {
             );
             return;
         }
-        if (contra.isEmpty() || repContra.isEmpty()) {
+        if (descripcion.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
                 "La contraseña no puede quedar vacia",
@@ -81,43 +115,59 @@ public class EmpleadosAgregarController implements Initializable {
             );
             return;
         }
-        if (!contra.equals(repContra)) {
+        if (origen.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
-                "La contraseña no es igual",
-                "Vuelve a ingresar la contraseña",
+                "El origen no puede quedar vacio",
+                "Agrega un origen",
                 Alert.AlertType.WARNING
             );
             return;
         }
-        if (usuarioDao.existeUsuario(nombre)) {
+        if (destino.isEmpty()) {
             mostrarAlerta(
                 "Formulario",
-                "El nombre ya existe",
-                "Elija otro nombre",
+                "El destino no puede quedar vacio",
+                "Agrega un destino",
                 Alert.AlertType.WARNING
             );
             return;
         }
-
-        boolean agregado = usuarioDao.agregarUsuario(nombre, contra, "admin");
+        if (precio.isEmpty()) {
+            mostrarAlerta(
+                "Formulario",
+                "El precio no puede quedar vacio",
+                "Agrega un precio",
+                Alert.AlertType.WARNING
+            );
+            return;
+        }
+        
+        boolean agregado = paqueteriaDao.agregarPaquete(
+            nombre,
+            descripcion,
+            Double.valueOf(precio),
+            Estado.ESPERA,
+            Ruta.PREPARANDO,
+            guia,
+            usuarioDao.obtenerUsuarioPorNombre(usuario).getId(),
+            origen,
+            destino
+        );
         if (agregado) {
             mostrarAlerta(
                 "Formulario",
-                "Se ha agregado correctamente",
-                "El empleado ha sido agregado correctamente",
+                "El paquete se agrego correctamente.",
+                "El paquete ha sido agregado al inventario del usuario " + usuario,
                 Alert.AlertType.INFORMATION
             );
-            nombreField.setText("");
-            contraField.setText("");
-            repContraField.setText("");
-            App.setContent("empleados");
+            App.setContent("inventario");
         } else {
             mostrarAlerta(
                 "Formulario",
-                "No se guardo el empleado.",
-                "Verifique la base de datos.",
-                Alert.AlertType.INFORMATION
+                "Error al agregar el paquete",
+                "Intenta nuevamente",
+                Alert.AlertType.ERROR
             );
         }
     }

@@ -6,10 +6,7 @@ package amazombie.utils;
 
 import amazombie.models.Usuario;
 
-/**
- *
- * @author JoseANG3L
- */
+
 public class GestorSesion {
 
     private static Usuario usuarioActual;

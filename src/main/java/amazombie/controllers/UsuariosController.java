@@ -32,11 +32,7 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class UsuariosController implements Initializable {
 
     /**
@@ -55,6 +51,14 @@ public class UsuariosController implements Initializable {
         usuariosContainer.getChildren().clear();
         List<Usuario> usuarios = usuarioDao.obtenerUsuarios();
 
+        if (usuarios.isEmpty()) {
+            Label noUsuariosLabel = new Label("No hay usuarios registrados");
+            noUsuariosLabel.setFont(Font.font("Poetsen One", 14));
+            noUsuariosLabel.setAlignment(Pos.CENTER);
+            noUsuariosLabel.setPadding(new Insets(20));
+            usuariosContainer.getChildren().add(noUsuariosLabel);
+            return;
+        }
         usuariosContainer.getChildren().add(crearHeader(usuarios.get(0)));
 
         for (Usuario usuario : usuarios) {

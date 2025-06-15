@@ -13,11 +13,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import javafx.event.ActionEvent;
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class SucursalesController implements Initializable {
 
     /**

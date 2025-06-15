@@ -15,10 +15,6 @@ import java.util.List;
 
 import amazombie.models.Usuario;
 
-/**
- *
- * @author JoseANG3L
- */
 public class UsuarioDao {
 
     private static UsuarioDao instancia;
@@ -125,6 +121,14 @@ public class UsuarioDao {
         }
 
         return usuario;
+    }
+
+    public Usuario obtenerUsuarioPorNombre(String nombre) {
+        return obtenerUsuarios()
+            .stream()
+            .filter(u -> u.getNombre().equals(nombre))
+            .findFirst()
+            .orElse(null);
     }
 
     public List<Usuario> obtenerUsuarios() {

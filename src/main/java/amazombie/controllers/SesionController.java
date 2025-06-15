@@ -13,26 +13,15 @@ import amazombie.utils.GestorSesion;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 
 
-/**
- * FXML Controller class
- *
- * @author JoseANG3L
- */
+
 public class SesionController {
     
     private UsuarioDao usuarioDao = new UsuarioDao();
@@ -112,7 +101,7 @@ public class SesionController {
                 mostrarAlerta(
                     "Formulario",
                     "Error al iniciar sesión",
-                    "El usuario no existe",
+                    "Usuario o contraseña incorrectos",
                     Alert.AlertType.ERROR
                 );
             }
@@ -305,46 +294,6 @@ public class SesionController {
             hacerContrasenaVisible();
             contrasenaVisible = true;
         }
-    }
-    
-    public static boolean datosInvalidos() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Formulario");
-        alert.setHeaderText("Los datos ingresados son invalidos.");
-        alert.setContentText("Ingresa el usuario y contraseña correctos.");
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-        return resultado.isPresent() && resultado.get() == ButtonType.OK;
-    }
-    
-    public static boolean usuarioVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Formulario");
-        alert.setHeaderText("El nombre de usuario no puede quedar vacio.");
-        alert.setContentText("Agrega un nombre de usuario.");
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-        return resultado.isPresent() && resultado.get() == ButtonType.OK;
-    }
-    
-    public static boolean contrasenaVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Formulario");
-        alert.setHeaderText("La contraseña no puede quedar vacia.");
-        alert.setContentText("Agrega una contraseña.");
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-        return resultado.isPresent() && resultado.get() == ButtonType.OK;
-    }
-    
-    public static boolean datosVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Formulario");
-        alert.setHeaderText("Los datos no pueden quedar vacios.");
-        alert.setContentText("Agregar el usuario y contraseña.");
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-        return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
     
     public static void mostrarAlerta(String titulo, String mensaje, String contenido, Alert.AlertType tipo) {

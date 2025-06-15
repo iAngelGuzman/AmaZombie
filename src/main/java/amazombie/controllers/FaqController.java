@@ -38,9 +38,11 @@ public class FaqController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
-    @FXML private ScrollPane scrollpanel;
-    @FXML private VBox faqContainer;
+
+    @FXML
+    private ScrollPane scrollpanel;
+    @FXML
+    private VBox faqContainer;
     private FaqDao faqDao = new FaqDao();
 
     public void actualizarDatos() {
@@ -50,7 +52,6 @@ public class FaqController implements Initializable {
         for (Faq faq : faqs) {
             faqContainer.getChildren().add(crearFaqBox(faq));
         }
-
     }
 
     public static VBox crearFaqBox(Faq faq) {
@@ -59,9 +60,8 @@ public class FaqController implements Initializable {
         vbox.setStyle("-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 10;");
         vbox.setPadding(new Insets(10));
         VBox.setMargin(vbox, new Insets(5)); // margen superior externo
-        //vbox.setPrefHeight(Region.USE_COMPUTED_SIZE); // o simplemente
-        //vbox.setMaxHeight(Double.MAX_VALUE);
-
+        // vbox.setPrefHeight(Region.USE_COMPUTED_SIZE); // o simplemente
+        // vbox.setMaxHeight(Double.MAX_VALUE);
 
         // Label de título
         Label titulo = new Label("❓ " + faq.getPregunta());
@@ -75,13 +75,13 @@ public class FaqController implements Initializable {
         texto.setFont(Font.font("Poetsen One", 14));
         texto.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
         VBox.setMargin(texto, new Insets(5, 0, 0, 0)); // margen superior interno
-        //VBox.setVgrow(texto, Priority.ALWAYS);
+        // VBox.setVgrow(texto, Priority.ALWAYS);
 
-        // Calcular número de líneas estimadas (puedes refinar esto si quieres precisión real)
+        // Calcular número de líneas estimadas (puedes refinar esto si quieres precisión
+        // real)
         int numLineas = texto.getText().split("\n").length + 1;
         double altoPorLinea = 20.0; // Aproximadamente para fuente de 14pt
         texto.setPrefHeight(numLineas * altoPorLinea);
-
 
         VBox.setVgrow(texto, Priority.ALWAYS);
         texto.setMaxHeight(Double.MAX_VALUE);
@@ -92,53 +92,52 @@ public class FaqController implements Initializable {
     }
 
     @FXML
-    public void cargarFAQ() throws SQLException{
+    public void cargarFAQ() throws SQLException {
         String sql = "SELECT pregunta, respuesta FROM FAQ ORDER BY id ASC";
         faqContainer.getChildren().clear();
 
-         try (java.sql.Connection conn = ConexionDB.conectar();
+        try (java.sql.Connection conn = ConexionDB.conectar();
                 PreparedStatement pstmtsql = conn.prepareStatement(sql);
-                 ResultSet rs = pstmtsql.executeQuery()){
-                 
-                 if (!rs.isBeforeFirst()) { // Esto verifica si hay alguna fila en el resultado
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Preguntas Y Respuestas");
-                    alert.setHeaderText("Sin información disponible");
-                    alert.setContentText("Inténtelo más tarde, mientras se trabaja en más FAQ");
-                    alert.showAndWait();
-                    return; // Sale del método
-                 }
-             
-                 while (rs.next()) {
-                    String pregunta = rs.getString("pregunta");
-                    String respuesta = rs.getString("respuesta");
+                ResultSet rs = pstmtsql.executeQuery()) {
 
-                    Label preguntaLabel = new Label("❓ " + pregunta);
-                    preguntaLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 25px;");
-                    Label respuestaLabel = new Label("💡 " + respuesta);
-                   respuestaLabel.setStyle("-fx-padding: 0 0 10 10; -fx-font-size: 23px;");
-                    Separator separador = new Separator();
-                    faqContainer.getChildren().addAll(preguntaLabel, respuestaLabel, separador);
-                 }
+            if (!rs.isBeforeFirst()) { // Esto verifica si hay alguna fila en el resultado
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Preguntas Y Respuestas");
+                alert.setHeaderText("Sin información disponible");
+                alert.setContentText("Inténtelo más tarde, mientras se trabaja en más FAQ");
+                alert.showAndWait();
+                return; // Sale del método
+            }
 
-         }catch(SQLException e){
-             e.printStackTrace();
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-              alert.setTitle("Error al Cargar FAQ");
-              alert.setHeaderText("Error al cargar la información desde la base de datos");
-              alert.setContentText("Por favor, inténtelo más tarde");
-              alert.showAndWait();
+            while (rs.next()) {
+                String pregunta = rs.getString("pregunta");
+                String respuesta = rs.getString("respuesta");
+
+                Label preguntaLabel = new Label("❓ " + pregunta);
+                preguntaLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 25px;");
+                Label respuestaLabel = new Label("💡 " + respuesta);
+                respuestaLabel.setStyle("-fx-padding: 0 0 10 10; -fx-font-size: 23px;");
+                Separator separador = new Separator();
+                faqContainer.getChildren().addAll(preguntaLabel, respuestaLabel, separador);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Error al Cargar FAQ");
+            alert.setHeaderText("Error al cargar la información desde la base de datos");
+            alert.setContentText("Por favor, inténtelo más tarde");
+            alert.showAndWait();
         }
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    try {
-        cargarFAQ();
-    } catch (Exception e) {
-        e.printStackTrace();
+        try {
+            cargarFAQ();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
-    
 }

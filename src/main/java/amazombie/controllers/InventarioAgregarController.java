@@ -161,6 +161,12 @@ public class InventarioAgregarController implements Initializable {
                 "El paquete ha sido agregado al inventario del usuario " + usuario,
                 Alert.AlertType.INFORMATION
             );
+            usuarioCB.getSelectionModel().clearSelection();
+            nombreField.clear();
+            descripcionField.clear();
+            origenField.clear();
+            destinoField.clear();
+            precioField.clear();
             App.setContent("inventario");
         } else {
             mostrarAlerta(

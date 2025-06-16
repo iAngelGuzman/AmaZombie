@@ -19,6 +19,10 @@ private static final String PASSWORD = "root";
 Para este programa se utilizo la base de datos MySQL, es importante ejecutar el siguiente query.
 
 ```
+CREATE DATABASE amazombie;
+
+USE DATABASE amazombie;
+
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -68,7 +72,8 @@ CREATE TABLE faq (
 );
 
 INSERT INTO usuarios (nombre, contrasena, rol) VALUES
-('admin', 'root', 'admin');
+('admin', 'root', 'admin'),
+('raul', '123', 'usuario');
 
 INSERT INTO paquetes (
     usuario_id,

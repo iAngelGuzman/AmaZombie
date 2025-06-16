@@ -21,7 +21,7 @@ Para este programa se utilizo la base de datos MySQL, es importante ejecutar el 
 ```
 CREATE DATABASE amazombie;
 
-USE DATABASE amazombie;
+USE amazombie;
 
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,

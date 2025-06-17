@@ -201,4 +201,23 @@ public class PaqueteriaDao {
         return paquete;
     }
 
+    public boolean eliminarPaquete(int id) {
+        boolean exito = false;
+
+        String sql = "DELETE FROM paquetes WHERE id = ?";
+
+        try (Connection connection = ConexionDB.conectar();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int filasAfectadas = stmt.executeUpdate();
+            exito = filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return exito;
+    }
 }

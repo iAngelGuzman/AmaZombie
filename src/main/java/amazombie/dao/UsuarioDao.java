@@ -124,11 +124,33 @@ public class UsuarioDao {
     }
 
     public Usuario obtenerUsuarioPorNombre(String nombre) {
-        return obtenerUsuarios()
+        return obtenerTodosLosUsuarios()
             .stream()
             .filter(u -> u.getNombre().equals(nombre))
             .findFirst()
             .orElse(null);
+    }
+
+    public List<Usuario> obtenerTodosLosUsuarios() {
+        List<Usuario> usuarios = new ArrayList<>();
+
+        try (Connection connection = ConexionDB.conectar()) {
+            String sql = "SELECT * FROM usuarios";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        usuarios.add(new Usuario(
+                                rs.getInt("id"),
+                                rs.getString("nombre"),
+                                rs.getString("rol")));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
     }
 
     public List<Usuario> obtenerUsuarios() {

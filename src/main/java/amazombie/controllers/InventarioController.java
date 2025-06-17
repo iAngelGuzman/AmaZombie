@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +26,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +39,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-
 
 public class InventarioController implements Initializable {
 
@@ -74,12 +75,12 @@ public class InventarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-    
+
     @FXML
     public void abrirAgregar() throws IOException {
         App.setContent("inventarioAgregar");
     }
-    
+
     public void actualizarDatos() {
         if (!GestorSesion.getUsuarioActual().esAdmin()) {
             agregarBtn.setVisible(false);
@@ -163,7 +164,7 @@ public class InventarioController implements Initializable {
         enEsperaLabel.setFont(new Font("Poetsen One", 16));
         VBox.setMargin(enEsperaLabel, new Insets(5, 0, 5, 0));
         todosContainer.getChildren().addAll(enEsperaLabel, enEsperaNuevoContainer);
-        
+
         if (enEsperaNuevoContainer.getChildren().isEmpty()) {
             Label label = new Label("No hay paquetes en espera.");
             label.setFont(new Font("Poetsen One", 16));
@@ -184,7 +185,7 @@ public class InventarioController implements Initializable {
             VBox.setMargin(label, new Insets(5, 0, 20, 0));
             todosContainer.getChildren().add(label);
         }
-        
+
         Label procesadosLabel = new Label("Procesados");
         procesadosLabel.setFont(new Font("Poetsen One", 16));
         VBox.setMargin(procesadosLabel, new Insets(5, 0, 5, 0));
@@ -298,6 +299,13 @@ public class InventarioController implements Initializable {
         facturaButton.setPrefWidth(110);
         facturaButton.setCursor(Cursor.HAND);
         facturaButton.setPadding(new Insets(6));
+        VBox.setMargin(facturaButton, new Insets(0, 0, 6, 0));
+
+        Button eliminarButton = new Button("Eliminar");
+        eliminarButton.setFont(new Font("Poetsen One", 14));
+        eliminarButton.setPrefWidth(110);
+        eliminarButton.setCursor(Cursor.HAND);
+        eliminarButton.setPadding(new Insets(6));
 
         editarButton.setOnAction(e -> {
             try {
@@ -336,6 +344,36 @@ public class InventarioController implements Initializable {
             }
         });
 
+        eliminarButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar paquete");
+            alert.setHeaderText("¿Está seguro de que desea eliminar el paquete?");
+            alert.setContentText("Esta acción no se puede deshacer");
+
+            ButtonType buttonTypeSi = new ButtonType("Sí, aceptar");
+            ButtonType buttonTypeNo = new ButtonType("No, cancelar");
+            alert.getButtonTypes().setAll(buttonTypeSi, buttonTypeNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == buttonTypeSi) {
+                boolean eliminado = paqueteriaDao.eliminarPaquete(paquete.getId());
+                if (eliminado) {
+                    Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                    alert2.setTitle("Paquete eliminado");
+                    alert2.setHeaderText("Paquete eliminado");
+                    alert2.setContentText("El paquete ha sido eliminado");
+                    alert2.showAndWait();
+                    actualizarDatos();
+                } else {
+                    Alert alert2 = new Alert(Alert.AlertType.ERROR);
+                    alert2.setTitle("Error");
+                    alert2.setHeaderText("Error al eliminar el paquete");
+                    alert2.setContentText("No se pudo eliminar el paquete");
+                    alert2.showAndWait();
+                }
+            }
+        });
+
         // Button confirmarButton = new Button("Confirmar");
         // confirmarButton.setFont(new Font("Poetsen One", 14));
         // confirmarButton.setPrefWidth(100);
@@ -343,6 +381,10 @@ public class InventarioController implements Initializable {
         // confirmarButton.setPadding(new Insets(5));
 
         actionVBox.getChildren().addAll(editarButton, rastrearButton, facturaButton);
+
+        if (GestorSesion.getUsuarioActual().esAdmin()) {
+            actionVBox.getChildren().add(eliminarButton);
+        }
 
         gridPane.add(actionVBox, 2, 0);
 

@@ -131,4 +131,24 @@ public class ReporteDao {
 
         return exito;
     }
+
+    public Boolean eliminarReporte(int id) {
+        boolean exito = false;
+
+        String sql = "DELETE FROM reportes WHERE id = ?";
+
+        try (Connection connection = ConexionDB.conectar();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int filasAfectadas = stmt.executeUpdate();
+            exito = filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return exito;
+    }
 }

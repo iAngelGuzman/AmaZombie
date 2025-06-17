@@ -63,7 +63,7 @@ public class InventarioAgregarController implements Initializable {
         usuarioCB.getItems().clear();
         usuarioCB.getSelectionModel().clearSelection();
         usuarioCB.getItems().addAll(
-            usuarioDao.obtenerUsuarios()
+            usuarioDao.obtenerTodosLosUsuarios()
                 .stream()
                 .map(Usuario::getNombre)
                 .toList()

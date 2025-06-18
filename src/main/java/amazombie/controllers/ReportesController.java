@@ -303,7 +303,7 @@ public class ReportesController implements Initializable {
         eliminarBtn.setFont(Font.font("Poetsen One", 14));
         eliminarBtn.setCursor(Cursor.HAND);
 
-        btnDetalles.setOnAction(e -> {
+        eliminarBtn.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar reporte");
             alert.setHeaderText("¿Está seguro de que desea eliminar el reporte?");
